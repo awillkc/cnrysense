@@ -1,9 +1,106 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta http-equiv="refresh" content="0; url=CNRY.html"/>
-<title>cnry</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>cnrysense — project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@900&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#0F0E0C; --bg:#F5F1EA; --line:#E4DED2; --canary:#F5C526; --canary-deep:#C89A0F; --dusk:#6B5ED8; }
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; min-height: 100vh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 80px 32px 120px; flex: 1; }
+
+  .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 64px; }
+  .brand svg { width: 40px; height: 31px; }
+  .brand-text { display: flex; flex-direction: column; gap: 2px; }
+  .lockup { font-family: 'Archivo', sans-serif; font-weight: 900; letter-spacing: -0.04em; text-transform: lowercase; font-size: 28px; line-height: 1; color: var(--ink); }
+  .strapline { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 12px; color: var(--dusk); }
+
+  h1 { font-family: 'Instrument Serif', serif; font-size: clamp(40px, 6vw, 72px); font-weight: 400; letter-spacing: -0.025em; line-height: 1; margin: 0 0 16px; }
+  h1 em { font-style: italic; color: var(--canary-deep); }
+  .sub { font-size: 17px; color: #6E6960; margin: 0 0 64px; max-width: 480px; line-height: 1.55; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s; }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px -16px rgba(15,14,12,.2); }
+  .card-thumb { height: 180px; display: flex; align-items: center; justify-content: center; font-size: 48px; }
+  .card-thumb.app { background: radial-gradient(ellipse 120% 80% at 50% 0%, #F5C526 0%, #D4A015 30%, #9A7510 60%, #0A0A0A 100%); }
+  .card-thumb.calm { background: linear-gradient(135deg, #F5F1EA 0%, #EDE7DC 100%); border-bottom: 1px solid var(--line); }
+  .card-thumb.editorial { background: linear-gradient(135deg, #F6F1E7 0%, #E8E1D2 100%); border-bottom: 1px solid var(--line); }
+  .card-thumb.brand { background: var(--canary); }
+  .card-body { padding: 24px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .card-tag { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #A39E94; }
+  .card-title { font-family: 'Instrument Serif', serif; font-size: 24px; font-weight: 400; letter-spacing: -0.015em; line-height: 1.1; margin: 0; }
+  .card-desc { font-size: 13.5px; color: #6E6960; line-height: 1.5; margin-top: 4px; }
+  .card-arrow { margin-top: auto; padding-top: 16px; font-size: 13px; font-weight: 500; color: var(--canary-deep); display: flex; align-items: center; gap: 6px; }
+
+  footer { border-top: 1px solid var(--line); padding: 28px 32px; display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; color: #A39E94; }
+</style>
 </head>
-<body><a href="CNRY.html">cnry</a></body>
+<body>
+<div class="wrap">
+  <div class="brand">
+    <svg viewBox="0 0 287 218"><path fill="#C89A0F" fill-rule="evenodd" d="M217.161,66.369 C216.096,68.197 215.13,70.071 214.22,71.97 C210.054,61.378 203.747,51.653 195.568,43.474 L194.719,42.625 C201.974,37.297 210.65,34.204 219.778,33.874 C229.531,33.539 237.463,36.38 243.081,39.444 C234.318,45.062 224.583,53.617 217.161,66.369 Z M199.037,135.577 L183.216,119.755 C189.908,101.702 185.553,81.128 171.734,67.31 L170.525,66.101 L175.198,61.427 L175.157,61.386 L185.29,51.252 L186.539,52.501 C198.505,64.468 205.784,80.321 207.051,97.16 L207.06,99.654 L207.204,99.792 C207.658,112.255 204.808,124.654 199.037,135.577 Z M101.378,137.662 C115.18,151.466 135.738,155.824 153.787,149.154 L169.618,164.985 C142.534,179.36 108.708,174.603 86.572,152.469 L85.331,151.228 L91.043,145.501 L91.084,145.541 L100.171,136.455 L101.378,137.662 Z M259.328,35.215 C254.156,30.73 239.888,20.356 219.316,21.121 C204.632,21.649 190.827,27.665 180.437,38.055 L20.819,197.673 L38.869,197.673 L76.295,160.248 L77.543,161.497 C93.682,177.636 115.083,185.948 136.626,185.947 C152.901,185.947 169.26,181.201 183.486,171.503 L189.853,167.163 L156.583,133.894 L152.508,135.847 C138.398,142.602 121.479,139.704 110.407,128.635 L109.198,127.427 L161.497,75.129 L162.705,76.337 C173.791,87.423 176.686,104.354 169.907,118.465 L167.948,122.544 L201.22,155.816 L205.561,149.451 C215.926,134.255 220.979,115.755 219.851,97.275 C221.032,88.524 223.833,80.294 228.189,72.785 C236.76,58.053 249.065,49.993 257.875,45.812 L266.718,41.631 L259.328,35.215 Z"/></svg>
+    <div class="brand-text">
+      <span class="lockup">cnrysense</span>
+      <span class="strapline">a sixth sense</span>
+    </div>
+  </div>
+
+  <h1>A <em>quiet co-pilot</em><br>for your engine.</h1>
+  <p class="sub">Design prototypes ready for Lovable. Click any file to preview.</p>
+
+  <div class="grid">
+    <a class="card" href="CNRY.html">
+      <div class="card-thumb app"></div>
+      <div class="card-body">
+        <div class="card-tag">Mobile App</div>
+        <h2 class="card-title">Engine health</h2>
+        <p class="card-desc">iOS prototype — three engine states, metric detail, history, alerts, profile.</p>
+        <div class="card-arrow">Open prototype →</div>
+      </div>
+    </a>
+    <a class="card" href="marketing-calm.html">
+      <div class="card-thumb calm">
+        <svg viewBox="0 0 287 218" width="56" height="43"><path fill="#C89A0F" fill-rule="evenodd" d="M217.161,66.369 C216.096,68.197 215.13,70.071 214.22,71.97 C210.054,61.378 203.747,51.653 195.568,43.474 L194.719,42.625 C201.974,37.297 210.65,34.204 219.778,33.874 C229.531,33.539 237.463,36.38 243.081,39.444 C234.318,45.062 224.583,53.617 217.161,66.369 Z M199.037,135.577 L183.216,119.755 C189.908,101.702 185.553,81.128 171.734,67.31 L170.525,66.101 L175.198,61.427 L175.157,61.386 L185.29,51.252 L186.539,52.501 C198.505,64.468 205.784,80.321 207.051,97.16 L207.06,99.654 L207.204,99.792 C207.658,112.255 204.808,124.654 199.037,135.577 Z M101.378,137.662 C115.18,151.466 135.738,155.824 153.787,149.154 L169.618,164.985 C142.534,179.36 108.708,174.603 86.572,152.469 L85.331,151.228 L91.043,145.501 L91.084,145.541 L100.171,136.455 L101.378,137.662 Z M259.328,35.215 C254.156,30.73 239.888,20.356 219.316,21.121 C204.632,21.649 190.827,27.665 180.437,38.055 L20.819,197.673 L38.869,197.673 L76.295,160.248 L77.543,161.497 C93.682,177.636 115.083,185.948 136.626,185.947 C152.901,185.947 169.26,181.201 183.486,171.503 L189.853,167.163 L156.583,133.894 L152.508,135.847 C138.398,142.602 121.479,139.704 110.407,128.635 L109.198,127.427 L161.497,75.129 L162.705,76.337 C173.791,87.423 176.686,104.354 169.907,118.465 L167.948,122.544 L201.22,155.816 L205.561,149.451 C215.926,134.255 220.979,115.755 219.851,97.275 C221.032,88.524 223.833,80.294 228.189,72.785 C236.76,58.053 249.065,49.993 257.875,45.812 L266.718,41.631 L259.328,35.215 Z"/></svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Marketing Site · Calm</div>
+        <h2 class="card-title">Waitlist landing page</h2>
+        <p class="card-desc">Warm cream, Oura-style wellness aesthetic. Hero, how-it-works, app showcase, pricing, waitlist.</p>
+        <div class="card-arrow">Open prototype →</div>
+      </div>
+    </a>
+    <a class="card" href="marketing-editorial.html">
+      <div class="card-thumb editorial">
+        <svg viewBox="0 0 287 218" width="48" height="37"><path fill="#3A3630" fill-rule="evenodd" d="M217.161,66.369 C216.096,68.197 215.13,70.071 214.22,71.97 C210.054,61.378 203.747,51.653 195.568,43.474 L194.719,42.625 C201.974,37.297 210.65,34.204 219.778,33.874 C229.531,33.539 237.463,36.38 243.081,39.444 C234.318,45.062 224.583,53.617 217.161,66.369 Z M199.037,135.577 L183.216,119.755 C189.908,101.702 185.553,81.128 171.734,67.31 L170.525,66.101 L175.198,61.427 L175.157,61.386 L185.29,51.252 L186.539,52.501 C198.505,64.468 205.784,80.321 207.051,97.16 L207.06,99.654 L207.204,99.792 C207.658,112.255 204.808,124.654 199.037,135.577 Z M101.378,137.662 C115.18,151.466 135.738,155.824 153.787,149.154 L169.618,164.985 C142.534,179.36 108.708,174.603 86.572,152.469 L85.331,151.228 L91.043,145.501 L91.084,145.541 L100.171,136.455 L101.378,137.662 Z M259.328,35.215 C254.156,30.73 239.888,20.356 219.316,21.121 C204.632,21.649 190.827,27.665 180.437,38.055 L20.819,197.673 L38.869,197.673 L76.295,160.248 L77.543,161.497 C93.682,177.636 115.083,185.948 136.626,185.947 C152.901,185.947 169.26,181.201 183.486,171.503 L189.853,167.163 L156.583,133.894 L152.508,135.847 C138.398,142.602 121.479,139.704 110.407,128.635 L109.198,127.427 L161.497,75.129 L162.705,76.337 C173.791,87.423 176.686,104.354 169.907,118.465 L167.948,122.544 L201.22,155.816 L205.561,149.451 C215.926,134.255 220.979,115.755 219.851,97.275 C221.032,88.524 223.833,80.294 228.189,72.785 C236.76,58.053 249.065,49.993 257.875,45.812 L266.718,41.631 L259.328,35.215 Z"/></svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Marketing Site · Editorial</div>
+        <h2 class="card-title">An editorial on quieter sailing</h2>
+        <p class="card-desc">Monocle-style long read. Serif-led, whitespace, ruled columns, Penumbra engine-state arc.</p>
+        <div class="card-arrow">Open prototype →</div>
+      </div>
+    </a>
+    <a class="card" href="brand-kit.html">
+      <div class="card-thumb brand">
+        <svg viewBox="0 0 287 218" width="52" height="40"><path fill="#0F0E0C" fill-rule="evenodd" d="M217.161,66.369 C216.096,68.197 215.13,70.071 214.22,71.97 C210.054,61.378 203.747,51.653 195.568,43.474 L194.719,42.625 C201.974,37.297 210.65,34.204 219.778,33.874 C229.531,33.539 237.463,36.38 243.081,39.444 C234.318,45.062 224.583,53.617 217.161,66.369 Z M199.037,135.577 L183.216,119.755 C189.908,101.702 185.553,81.128 171.734,67.31 L170.525,66.101 L175.198,61.427 L175.157,61.386 L185.29,51.252 L186.539,52.501 C198.505,64.468 205.784,80.321 207.051,97.16 L207.06,99.654 L207.204,99.792 C207.658,112.255 204.808,124.654 199.037,135.577 Z M101.378,137.662 C115.18,151.466 135.738,155.824 153.787,149.154 L169.618,164.985 C142.534,179.36 108.708,174.603 86.572,152.469 L85.331,151.228 L91.043,145.501 L91.084,145.541 L100.171,136.455 L101.378,137.662 Z M259.328,35.215 C254.156,30.73 239.888,20.356 219.316,21.121 C204.632,21.649 190.827,27.665 180.437,38.055 L20.819,197.673 L38.869,197.673 L76.295,160.248 L77.543,161.497 C93.682,177.636 115.083,185.948 136.626,185.947 C152.901,185.947 169.26,181.201 183.486,171.503 L189.853,167.163 L156.583,133.894 L152.508,135.847 C138.398,142.602 121.479,139.704 110.407,128.635 L109.198,127.427 L161.497,75.129 L162.705,76.337 C173.791,87.423 176.686,104.354 169.907,118.465 L167.948,122.544 L201.22,155.816 L205.561,149.451 C215.926,134.255 220.979,115.755 219.851,97.275 C221.032,88.524 223.833,80.294 228.189,72.785 C236.76,58.053 249.065,49.993 257.875,45.812 L266.718,41.631 L259.328,35.215 Z"/></svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">Brand Kit</div>
+        <h2 class="card-title">Sixth Sense lockup</h2>
+        <p class="card-desc">Logo system — cnry / cnrysense / sixthsense stacked lockups, palette, sensor, typography, usage.</p>
+        <div class="card-arrow">Open kit →</div>
+      </div>
+    </a>
+  </div>
+</div>
+<footer>
+  <span class="lockup" style="font-size:14px">cnrysense</span>
+  <span>awillkc/cnrysense</span>
+</footer>
+</body>
 </html>
