@@ -1,0 +1,150 @@
+/* CNRY — design tokens + base styles
+   Brand system per Sixth Sense Lockup:
+   Archivo Black lowercase wordmark · Instrument Serif display ·
+   Inter body · JetBrains Mono numeric · canary primary · dusk strapline */
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap');
+
+:root {
+  /* brand — aligned with Sixth Sense Lockup */
+  --cnry-canary:        #F5C526;
+  --cnry-canary-deep:   #C89A0F;
+  --cnry-dusk:          #6B5ED8;   /* strapline / "sixth sense" accent */
+  --cnry-sea:           #1DC79F;   /* healthy state */
+
+  /* paper / ink — referenced from brand kit for onboarding / light surfaces */
+  --cnry-paper:         #F5F1EA;
+  --cnry-ink:           #0F0E0C;
+  --cnry-ink-2:         #3A3630;
+  --cnry-ink-3:         #6E6960;
+  --cnry-line:          #E4DED2;
+
+  /* dark-app surfaces (app is dark-first; cream is for marketing) */
+  --cnry-bg:            #0A0A0A;
+  --cnry-surface-1:     #141414;
+  --cnry-surface-2:     #1A1A1A;
+  --cnry-hairline:      rgba(255,255,255,0.08);
+  --cnry-text:          #F4F1E8;
+  --cnry-text-2:        rgba(244,241,232,0.65);
+  --cnry-text-3:        rgba(244,241,232,0.42);
+  --cnry-red:           #E8452A;
+  --cnry-green:         #2ECC71;
+
+  /* state gradients — top wash */
+  --state-healthy-1:    #0E7A6B;
+  --state-healthy-2:    #14A888;
+  --state-healthy-glow: #1DC79F;
+
+  --state-watching-1:   #9A7510;
+  --state-watching-2:   #D4A015;
+  --state-watching-glow:#F5C526;
+
+  --state-action-1:     #A73A1A;
+  --state-action-2:     #D75B2C;
+  --state-action-glow:  #F07A3A;
+}
+
+* { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+body { margin: 0; font-family: 'Inter', system-ui, sans-serif; background: #000; color: var(--cnry-text); }
+
+.mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+/* Primary lockup — lowercase Archivo Black, tight tracking. This is the brand. */
+.lockup {
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  text-transform: lowercase;
+  line-height: 0.9;
+  display: inline-block;
+}
+
+/* Serif display — Instrument Serif for verdicts & editorial phrases */
+.serif {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+}
+.serif em { font-style: italic; color: var(--cnry-canary); }
+
+/* All-caps micro label */
+.label-caps {
+  font-family: 'Inter', sans-serif; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; font-size: 11px;
+}
+
+/* "sixth sense" strapline — italic serif, dusk accent on "sixth" */
+.sixth-sense {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic; font-weight: 400; letter-spacing: 0.01em;
+  font-size: 12px; color: var(--cnry-text-2);
+}
+.sixth-sense .sixth { color: var(--cnry-dusk); }
+
+/* transitions */
+.slow { transition: background 1.2s ease, color 1.2s ease, opacity 1.2s ease, transform 1.2s ease; }
+
+/* subtle grain */
+.grain::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.04; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/></svg>");
+}
+
+/* scroll */
+.scroll-hidden::-webkit-scrollbar { display: none; }
+.scroll-hidden { scrollbar-width: none; }
+
+/* bird breathing */
+@keyframes breathe {
+  0%, 100% { opacity: 0.95; transform: scale(1); }
+  50%      { opacity: 1;    transform: scale(1.015); }
+}
+.breathe { animation: breathe 4.2s ease-in-out infinite; }
+
+/* sparkline draw-in */
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.spark { stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: draw 1.8s cubic-bezier(.6,.05,.3,1) 0.2s forwards; }
+
+/* stagger entry */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.rise-1 { animation: rise 0.6s ease-out 0.05s both; }
+.rise-2 { animation: rise 0.6s ease-out 0.15s both; }
+.rise-3 { animation: rise 0.6s ease-out 0.25s both; }
+.rise-4 { animation: rise 0.6s ease-out 0.35s both; }
+.rise-5 { animation: rise 0.6s ease-out 0.45s both; }
+
+/* gradient breathing — state wash */
+@keyframes wash {
+  0%, 100% { transform: scale(1) translate(0,0);      opacity: 0.98; }
+  50%      { transform: scale(1.04) translate(2%,-1%); opacity: 1; }
+}
+.wash-anim { animation: wash 9s ease-in-out infinite; }
+
+/* score digit drop */
+@keyframes digitIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.digit-in { animation: digitIn 0.45s ease-out both; }
+
+/* tweak panel */
+.tweak-panel {
+  position: fixed; right: 20px; bottom: 20px; z-index: 200;
+  background: rgba(20,20,20,0.92); border: 1px solid var(--cnry-hairline);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border-radius: 16px; padding: 14px; width: 280px; color: var(--cnry-text);
+  font-family: 'Inter', sans-serif; font-size: 12px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.tweak-panel h4 { margin: 0 0 4px; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cnry-text-3); font-weight: 600; }
+.tweak-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.tweak-chip {
+  padding: 6px 10px; border-radius: 999px; border: 1px solid var(--cnry-hairline);
+  background: transparent; color: var(--cnry-text-2); cursor: pointer; font-size: 11px;
+  transition: all 0.18s ease;
+}
+.tweak-chip:hover { color: var(--cnry-text); border-color: rgba(255,255,255,0.2); }
+.tweak-chip.active { background: var(--cnry-canary); border-color: var(--cnry-canary); color: #0A0A0A; font-weight: 600; }

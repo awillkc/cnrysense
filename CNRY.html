@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>cnry — engine health</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"/>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<style>
+  html, body { background: #000; min-height: 100vh; }
+  .stage {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 40px 20px; background:
+      radial-gradient(ellipse 80% 60% at 50% 20%, rgba(245,197,38,0.04), transparent 60%),
+      #000;
+  }
+  .phone-wrap {
+    width: 390px; height: 844px; border-radius: 54px; overflow: hidden;
+    position: relative; background: #0A0A0A;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.8), 0 0 0 10px #111, 0 0 0 11px rgba(255,255,255,0.06);
+  }
+  .dyn-island {
+    position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+    width: 120px; height: 34px; border-radius: 20px; background: #000; z-index: 100;
+  }
+  .status-bar {
+    position: absolute; top: 0; left: 0; right: 0; height: 54px; z-index: 80;
+    display: flex; align-items: center; justify-content: space-between; padding: 18px 32px 0;
+    color: #fff; font-family: -apple-system, 'SF Pro Display', system-ui; font-weight: 600; font-size: 15px;
+    pointer-events: none;
+  }
+  .home-ind {
+    position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+    width: 134px; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.85); z-index: 90;
+  }
+  .caption {
+    position: absolute; bottom: -34px; left: 0; right: 0; text-align: center;
+    font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 13px;
+    letter-spacing: 0.005em; color: rgba(255,255,255,0.5);
+  }
+  .caption .dot { color: rgba(255,255,255,0.25); margin: 0 8px; font-style: normal; }
+  .caption .sixth { color: #6B5ED8; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="lib/data.js"></script>
+<script src="lib/diagnostics.js"></script>
+<script type="text/babel" src="lib/components.jsx"></script>
+<script type="text/babel" src="lib/screens.jsx"></script>
+
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "treatment": "hybrid",
+  "scoreDisplay": "numeral",
+  "sparkVariant": "area",
+  "typeTone": "instrument",
+  "navStyle": "labels",
+  "initialState": "watching"
+}/*EDITMODE-END*/;
+
+function PhoneFrame({ children }) {
+  return (
+    <div className="phone-wrap">
+      <div className="dyn-island"/>
+      <div className="status-bar">
+        <span>9:41</span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 14 }}>
+          <svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="0.6" fill="#fff"/><rect x="4.5" y="5" width="3" height="6" rx="0.6" fill="#fff"/><rect x="9" y="2.5" width="3" height="8.5" rx="0.6" fill="#fff"/><rect x="13.5" y="0" width="3" height="11" rx="0.6" fill="#fff"/></svg>
+          <svg width="24" height="11" viewBox="0 0 24 11"><rect x="0.5" y="0.5" width="20" height="10" rx="3" stroke="#fff" strokeOpacity="0.4" fill="none"/><rect x="2" y="2" width="17" height="7" rx="1.5" fill="#fff"/><rect x="21" y="3.5" width="1.5" height="4" rx="0.5" fill="#fff" opacity="0.4"/></svg>
+        </span>
+      </div>
+      {children}
+      <div className="home-ind"/>
+    </div>
+  );
+}
+
+function App() {
+  const [tweaks, setTweaks] = React.useState(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('cnry-tweaks') || '{}');
+      return { ...TWEAK_DEFAULTS, ...stored };
+    } catch { return TWEAK_DEFAULTS; }
+  });
+  const [tweakMode, setTweakMode] = React.useState(false);
+  const [state, setState] = React.useState(() => localStorage.getItem('cnry-state') || tweaks.initialState);
+  const [screen, setScreen] = React.useState(() => localStorage.getItem('cnry-screen') || 'home');
+  const [metric, setMetric] = React.useState(null);
+
+  React.useEffect(() => { localStorage.setItem('cnry-state', state); }, [state]);
+  React.useEffect(() => { localStorage.setItem('cnry-screen', screen); }, [screen]);
+  React.useEffect(() => { localStorage.setItem('cnry-tweaks', JSON.stringify(tweaks)); }, [tweaks]);
+
+  React.useEffect(() => {
+    const handler = (e) => {
+      if (e.data?.type === '__activate_edit_mode') setTweakMode(true);
+      if (e.data?.type === '__deactivate_edit_mode') setTweakMode(false);
+    };
+    window.addEventListener('message', handler);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', handler);
+  }, []);
+
+  const updateTweak = (key, value) => {
+    const next = { ...tweaks, [key]: value };
+    setTweaks(next);
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [key]: value } }, '*');
+  };
+
+  const onNav = (id) => {
+    if (id === 'home') { setMetric(null); setScreen('home'); }
+    else setScreen(id);
+  };
+  const onMetric = (kind) => { setMetric(kind); setScreen('metric'); };
+
+  let content;
+  if (screen === 'home') {
+    content = <HomeScreen state={state} treatment={tweaks.treatment} scoreDisplay={tweaks.scoreDisplay}
+      sparkVariant={tweaks.sparkVariant} typeTone={tweaks.typeTone} navStyle={tweaks.navStyle}
+      onNav={onNav} onMetric={onMetric}/>;
+  } else if (screen === 'metric') {
+    content = <MetricDetailScreen state={state} kind={metric || 'rhythm'} onBack={() => { setMetric(null); setScreen('home'); }}
+      navStyle={tweaks.navStyle} onNav={onNav}/>;
+  } else if (screen === 'history') {
+    content = <HistoryScreen state={state} onNav={onNav} navStyle={tweaks.navStyle}/>;
+  } else if (screen === 'alerts') {
+    content = <AlertsScreen state={state} onNav={onNav} navStyle={tweaks.navStyle}/>;
+  } else if (screen === 'settings') {
+    content = <ProfileScreen state={state} onNav={onNav} navStyle={tweaks.navStyle}/>;
+  }
+
+  return (
+    <div className="stage">
+      <div style={{ position: 'relative' }}>
+        <PhoneFrame>{content}</PhoneFrame>
+        <div className="caption">
+          cnry <span className="dot">·</span> {state === 'healthy' ? 'running well · score 88' : state === 'watching' ? 'worth an eye · score 68' : 'needs attention · score 48'} <span className="dot">·</span> a <span className="sixth">sixth</span> sense
+        </div>
+
+        {/* Floating state switcher (always visible for demo) */}
+        <div style={{
+          position: 'fixed', top: 20, left: '50%', transform: 'translateX(-50%)', zIndex: 250,
+          display: 'flex', gap: 4, padding: 4, borderRadius: 999,
+          background: 'rgba(20,20,20,0.9)', border: '1px solid rgba(255,255,255,0.08)',
+          backdropFilter: 'blur(18px)', fontFamily: 'Inter, sans-serif',
+        }}>
+          {[
+            ['healthy', 'Healthy'],
+            ['watching', 'Watching'],
+            ['action', 'Action'],
+          ].map(([id, label]) => (
+            <button key={id} onClick={() => setState(id)} style={{
+              padding: '7px 14px', borderRadius: 999, border: 'none', cursor: 'pointer',
+              fontSize: 11, fontWeight: 600, letterSpacing: '0.04em',
+              background: state === id ? '#F5C526' : 'transparent',
+              color: state === id ? '#0A0A0A' : 'rgba(255,255,255,0.7)',
+              transition: 'all 0.2s',
+            }}>{label}</button>
+          ))}
+        </div>
+      </div>
+
+      {tweakMode && <TweaksPanel tweaks={tweaks} update={updateTweak}/>}
+    </div>
+  );
+}
+
+function TweaksPanel({ tweaks, update }) {
+  const group = (title, key, options) => (
+    <>
+      <h4>{title}</h4>
+      <div className="tweak-row">
+        {options.map(([v, label]) => (
+          <button key={v} onClick={() => update(key, v)}
+            className={'tweak-chip' + (tweaks[key] === v ? ' active' : '')}>{label}</button>
+        ))}
+      </div>
+    </>
+  );
+  return (
+    <div className="tweak-panel">
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+        <div style={{ width: 6, height: 6, borderRadius: 3, background: '#F5C526' }}/>
+        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase' }}>Tweaks</span>
+      </div>
+      {group('Color treatment', 'treatment', [['full-bleed','Full-bleed'],['hybrid','Hybrid'],['dark-accent','Dark accent']])}
+      {group('Score display', 'scoreDisplay', [['numeral','Numeral'],['ring','Ring'],['bird','Bird on gradient']])}
+      {group('Sparkline', 'sparkVariant', [['line','Line'],['area','Area'],['dots','Dots']])}
+      {group('Typography', 'typeTone', [['instrument','Instrument'],['healthapp','Health app']])}
+      {group('Bottom nav', 'navStyle', [['labels','Labels'],['icons','Icons only'],['pill','Floating pill']])}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
