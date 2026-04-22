@@ -22,7 +22,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 import uvicorn
 
 # ── Config ─────────────────────────────────────────────────────────────────
-PORT = int(os.environ.get("PORT", 8000))
+PORT = int(os.environ.get("PORT", 8080))
 KB_PATH = Path(__file__).parent / "knowledge_base.json"
 MODEL   = "claude-opus-4-5"
 
