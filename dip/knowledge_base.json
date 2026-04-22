@@ -1,0 +1,658 @@
+{
+  "version": "0.1-synthetic",
+  "description": "CNRY Diagnostic Intelligence Platform — synthetic knowledge base for proof-of-concept testing. 50 symptom clusters covering common recreational marine inboard diesel/petrol engine problems.",
+  "entries": [
+    {
+      "id": 1,
+      "symptom": "Low rumbling noise from gearbox area that worsens when shifting into reverse",
+      "component": "gearbox",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": "low frequency, 80-200 Hz",
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Check and replace gearbox oil — often milky or very dark if contaminated", "difficulty": 1, "cost_gbp": "20-40", "verified_fixes": 89, "notes": "Fixes this in over half of cases. Ten-minute job at a haul-out." },
+        { "rank": 2, "action": "Inspect and replace gearbox coupling / flexible drive plate", "difficulty": 3, "cost_gbp": "80-200", "verified_fixes": 34, "notes": "Worn coupling causes direction-specific rumble. Common on Volvo Penta and Yanmar drives." },
+        { "rank": 3, "action": "Check input shaft bearing for wear", "difficulty": 4, "cost_gbp": "150-400", "verified_fixes": 18, "notes": "If oil change doesn't resolve, bearing wear is next suspect." }
+      ]
+    },
+    {
+      "id": 2,
+      "symptom": "Steady vibration at idle that disappears above 1500 RPM",
+      "component": "engine mounts",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": "resonance at idle RPM band",
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Inspect and replace engine mounts — look for cracked or collapsed rubber", "difficulty": 2, "cost_gbp": "80-300", "verified_fixes": 112, "notes": "Most common cause of idle-specific vibration. Mounts deteriorate with age and oil contamination." },
+        { "rank": 2, "action": "Check for one misfiring cylinder at idle — compression test all cylinders", "difficulty": 2, "cost_gbp": "0-50", "verified_fixes": 41, "notes": "A dead cylinder at low load causes rough idle vibration that smooths out under load." },
+        { "rank": 3, "action": "Check propeller for bent blade or barnacle fouling", "difficulty": 1, "cost_gbp": "0-200", "verified_fixes": 28, "notes": "Prop imbalance vibrates worse at specific RPMs." }
+      ]
+    },
+    {
+      "id": 3,
+      "symptom": "High-pitched whine from engine bay that increases with RPM",
+      "component": "alternator / belt",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": "high frequency, pitch scales with RPM",
+      "onset": "sudden or gradual",
+      "remedies": [
+        { "rank": 1, "action": "Inspect drive belts for wear, glazing, or misalignment — replace if cracked", "difficulty": 1, "cost_gbp": "15-40", "verified_fixes": 76, "notes": "Glazed or slipping belt is the most common cause of RPM-proportional whine." },
+        { "rank": 2, "action": "Check alternator bearings — spin by hand with engine off, listen for roughness", "difficulty": 2, "cost_gbp": "60-180", "verified_fixes": 44, "notes": "Failing alternator bearing produces a whine that tracks engine speed." },
+        { "rank": 3, "action": "Inspect raw water pump impeller and housing for wear", "difficulty": 2, "cost_gbp": "30-80", "verified_fixes": 19, "notes": "Worn or air-starved raw water pump can whine under load." }
+      ]
+    },
+    {
+      "id": 4,
+      "symptom": "Engine overheating — temperature gauge rising above normal, alarm triggered",
+      "component": "cooling system",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "sudden or gradual",
+      "remedies": [
+        { "rank": 1, "action": "Replace raw water pump impeller — check for missing vanes in housing", "difficulty": 2, "cost_gbp": "30-80", "verified_fixes": 143, "notes": "Impeller failure is the most common cause of marine engine overheating. Annual replacement recommended." },
+        { "rank": 2, "action": "Flush and descale heat exchanger — check for blockage with flow test", "difficulty": 3, "cost_gbp": "50-200", "verified_fixes": 67, "notes": "Scale and salt deposit build-up restricts coolant flow, especially in hard water areas." },
+        { "rank": 3, "action": "Check thermostat — remove and test in hot water, replace if stuck closed", "difficulty": 2, "cost_gbp": "15-40", "verified_fixes": 52, "notes": "Stuck thermostat prevents coolant circulation. Easy cheap fix to rule out early." },
+        { "rank": 4, "action": "Inspect raw water strainer for blockage — weed, plastic, debris", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 38, "notes": "Blocked strainer starves the pump. Check first before anything else." }
+      ]
+    },
+    {
+      "id": 5,
+      "symptom": "Knocking or rattling sound from engine — metallic, rhythmic, linked to RPM",
+      "component": "engine internals",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": "rhythmic knock, frequency proportional to RPM",
+      "onset": "sudden",
+      "remedies": [
+        { "rank": 1, "action": "Check engine oil level and pressure immediately — do not run engine", "difficulty": 1, "cost_gbp": "0-20", "verified_fixes": 58, "notes": "Big-end or main bearing knock sounds similar to this. Running without oil causes catastrophic damage." },
+        { "rank": 2, "action": "Check for loose heat shield or exhaust manifold bolts", "difficulty": 1, "cost_gbp": "0-10", "verified_fixes": 45, "notes": "Loose metal against engine casing rattles rhythmically with RPM and is often mistaken for internal knock." },
+        { "rank": 3, "action": "Inspect injectors — have them tested for spray pattern and opening pressure", "difficulty": 3, "cost_gbp": "80-200", "verified_fixes": 27, "notes": "Diesel knock from a faulty injector is a sharp tap rather than a deep rumble." }
+      ]
+    },
+    {
+      "id": 6,
+      "symptom": "Black or excessive smoke from exhaust under load",
+      "component": "fuel system / injection",
+      "engine_types": ["inboard diesel"],
+      "frequency_signature": null,
+      "onset": "gradual or sudden",
+      "remedies": [
+        { "rank": 1, "action": "Check and clean or replace air filter — restricted airflow causes rich running", "difficulty": 1, "cost_gbp": "15-40", "verified_fixes": 63, "notes": "Most common cause on older engines. Easy first check." },
+        { "rank": 2, "action": "Have injectors tested and cleaned — worn injectors drip and cause incomplete combustion", "difficulty": 3, "cost_gbp": "100-300", "verified_fixes": 48, "notes": "Dripping injectors show as black smoke under load with power loss." },
+        { "rank": 3, "action": "Check turbocharger seals if turbocharged — oil in intake causes heavy black smoke", "difficulty": 4, "cost_gbp": "200-600", "verified_fixes": 22, "notes": "Turbo seal failure lets oil into air charge, producing thick black smoke." }
+      ]
+    },
+    {
+      "id": 7,
+      "symptom": "White or blue smoke from exhaust, worse on start-up, clears when warm",
+      "component": "engine internals / coolant",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Check coolant level and inspect for head gasket failure — look for mayo in oil cap", "difficulty": 2, "cost_gbp": "0-600", "verified_fixes": 71, "notes": "White smoke that persists when warm often means coolant entering combustion. Check before running further." },
+        { "rank": 2, "action": "Check valve stem seals — blue smoke on start-up that clears is classic worn stem seals", "difficulty": 4, "cost_gbp": "200-500", "verified_fixes": 34, "notes": "Oil sits on valve stems overnight, burns off on first start — producing blue smoke that then clears." },
+        { "rank": 3, "action": "Inspect wet exhaust mixing elbow for cracks or blockage", "difficulty": 2, "cost_gbp": "60-200", "verified_fixes": 19, "notes": "Cracked mixing elbow can let water into exhaust and appear as white smoke." }
+      ]
+    },
+    {
+      "id": 8,
+      "symptom": "Loss of power — engine feels sluggish, won't reach normal WOT RPM",
+      "component": "fuel system / propeller",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "gradual or sudden",
+      "remedies": [
+        { "rank": 1, "action": "Check propeller for fouling, bent blade, or incorrect pitch", "difficulty": 1, "cost_gbp": "0-200", "verified_fixes": 87, "notes": "A fouled or damaged prop is the most common cause of power loss that doesn't show any other symptoms." },
+        { "rank": 2, "action": "Replace fuel filters — primary and secondary", "difficulty": 1, "cost_gbp": "20-60", "verified_fixes": 54, "notes": "Partially blocked fuel filter starves engine under load. Easy cheap fix." },
+        { "rank": 3, "action": "Check for air leak in fuel system — look for bubbles in clear fuel lines", "difficulty": 2, "cost_gbp": "10-50", "verified_fixes": 38, "notes": "Air ingress causes power loss, especially under load. Lift pump diaphragm failure is common." },
+        { "rank": 4, "action": "Inspect exhaust system for partial blockage", "difficulty": 2, "cost_gbp": "0-100", "verified_fixes": 21, "notes": "Collapsed mixing elbow or blocked silencer causes severe back-pressure and power loss." }
+      ]
+    },
+    {
+      "id": 9,
+      "symptom": "Vibration felt through helm and throttle lever, not present at neutral",
+      "component": "propeller / drive shaft",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": "vibration increases with throttle, felt through controls",
+      "onset": "sudden or after grounding",
+      "remedies": [
+        { "rank": 1, "action": "Inspect propeller for bent blade or strike damage — have it balanced", "difficulty": 1, "cost_gbp": "0-300", "verified_fixes": 98, "notes": "Most likely cause, especially if onset was sudden. Any prop strike can cause imbalance." },
+        { "rank": 2, "action": "Check cutlass bearing for wear — prop shaft should have no lateral play", "difficulty": 3, "cost_gbp": "50-150", "verified_fixes": 45, "notes": "Worn cutlass bearing allows shaft to wobble, causing vibration through hull and controls." },
+        { "rank": 3, "action": "Check prop shaft alignment with engine — measure coupling faces for gap", "difficulty": 3, "cost_gbp": "0-200", "verified_fixes": 31, "notes": "Misalignment puts cyclic load on shaft and causes vibration that gets worse under load." },
+        { "rank": 4, "action": "Inspect stern tube and stern gland for wear", "difficulty": 3, "cost_gbp": "50-250", "verified_fixes": 18, "notes": "Worn stern tube allows shaft movement, especially felt as vibration under power." }
+      ]
+    },
+    {
+      "id": 10,
+      "symptom": "Clicking or tapping from engine top end — faster when RPM increases",
+      "component": "valve train",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": "tapping, frequency doubles with RPM on 4-stroke",
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Check and adjust valve clearances to manufacturer specification", "difficulty": 3, "cost_gbp": "0-150", "verified_fixes": 67, "notes": "Excessive valve clearance is the classic cause of tappety top-end noise. Clearances open up as engines age." },
+        { "rank": 2, "action": "Check oil pressure and oil level — low oil pressure starves rocker gear", "difficulty": 1, "cost_gbp": "0-20", "verified_fixes": 29, "notes": "Insufficient lubrication to top end causes tapping. Check before assuming valve adjustment needed." },
+        { "rank": 3, "action": "Inspect rocker arms and pushrods for wear or a collapsed follower", "difficulty": 3, "cost_gbp": "50-200", "verified_fixes": 14, "notes": "A collapsed hydraulic follower or worn rocker arm tip causes a persistent tap on one cylinder." }
+      ]
+    },
+    {
+      "id": 11,
+      "symptom": "Engine starts fine but stalls under load or when throttle is advanced quickly",
+      "component": "fuel system",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Replace primary fuel filter and bleed air from system", "difficulty": 1, "cost_gbp": "20-50", "verified_fixes": 72, "notes": "Partial blockage allows idle running but engine starves at full demand." },
+        { "rank": 2, "action": "Check for water in fuel — drain fuel separator bowl", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 48, "notes": "Water contamination causes stalling under load as it reaches injectors." },
+        { "rank": 3, "action": "Inspect lift pump — diaphragm failure causes intermittent fuel delivery", "difficulty": 2, "cost_gbp": "30-80", "verified_fixes": 33, "notes": "Worn lift pump delivers enough fuel at idle but can't keep up at higher demand." }
+      ]
+    },
+    {
+      "id": 12,
+      "symptom": "Clunk or thud when engaging gear — worse when gearbox is cold",
+      "component": "gearbox",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": "single clunk on engagement",
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Adjust throttle-to-gear engagement sequence — engage at lower RPM", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 55, "notes": "Engaging at high idle causes clunk in any gearbox. Check operator habit first." },
+        { "rank": 2, "action": "Change gearbox oil and check gearbox pressure — many boxes have a clutch adjustment", "difficulty": 2, "cost_gbp": "20-100", "verified_fixes": 38, "notes": "Fresh oil and correct clutch pressure reduces engagement shock significantly." },
+        { "rank": 3, "action": "Inspect flexible coupling between engine and gearbox", "difficulty": 3, "cost_gbp": "60-180", "verified_fixes": 22, "notes": "A worn coupling allows rotational shock to transmit directly to gearbox on engagement." }
+      ]
+    },
+    {
+      "id": 13,
+      "symptom": "Steady 220-300 Hz vibration signature at idle that increases slightly with RPM",
+      "component": "bearing",
+      "engine_types": ["inboard diesel"],
+      "frequency_signature": "220-300 Hz, present at idle, slight increase with RPM",
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Inspect gearbox input shaft bearing — remove gearbox and check for roughness or pitting", "difficulty": 4, "cost_gbp": "150-500", "verified_fixes": 41, "notes": "A 220-300 Hz signature at idle on a diesel is characteristic of early gearbox bearing wear." },
+        { "rank": 2, "action": "Check all engine accessories for bearing wear — alternator, raw water pump, idler", "difficulty": 2, "cost_gbp": "0-200", "verified_fixes": 27, "notes": "Accessory bearings produce similar frequency range. Isolate by temporarily removing belts one at a time." },
+        { "rank": 3, "action": "Inspect intermediate shaft bearing if fitted", "difficulty": 4, "cost_gbp": "100-300", "verified_fixes": 14, "notes": "P-bracket or strut bearing wear produces a resonant vibration in this frequency band." }
+      ]
+    },
+    {
+      "id": 14,
+      "symptom": "Diesel engine hard to start when cold, takes many cranks, blows white smoke on first start",
+      "component": "glow plugs / compression",
+      "engine_types": ["inboard diesel"],
+      "frequency_signature": null,
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Test and replace faulty glow plugs — use a glow plug tester, replace all if one fails", "difficulty": 2, "cost_gbp": "30-80", "verified_fixes": 84, "notes": "Failed glow plugs are by far the most common cause of cold-start difficulty on diesel." },
+        { "rank": 2, "action": "Check compression on all cylinders — low compression causes hard cold starts", "difficulty": 2, "cost_gbp": "0-50", "verified_fixes": 31, "notes": "Worn rings or valves reduce compression, making cold starts difficult. Engine often runs fine once warm." },
+        { "rank": 3, "action": "Check battery condition and starter motor — slow cranking worsens cold-start on diesel", "difficulty": 1, "cost_gbp": "0-150", "verified_fixes": 26, "notes": "Diesel needs fast cranking to build compression heat. Marginal battery causes hard cold starts." }
+      ]
+    },
+    {
+      "id": 15,
+      "symptom": "Oil pressure warning light flickering at idle — goes out above 1000 RPM",
+      "component": "lubrication system",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "sudden or gradual",
+      "remedies": [
+        { "rank": 1, "action": "Check oil level immediately — top up if low and retest", "difficulty": 1, "cost_gbp": "10-20", "verified_fixes": 47, "notes": "Low oil is the first check. Never run engine with oil pressure warning showing." },
+        { "rank": 2, "action": "Replace oil pressure sender/switch — they fail and give false readings", "difficulty": 1, "cost_gbp": "15-40", "verified_fixes": 63, "notes": "Faulty sender is very common and often mimics real pressure loss. Cheap and easy to replace." },
+        { "rank": 3, "action": "Change engine oil and filter — check if oil is very old or heavily diluted with fuel", "difficulty": 1, "cost_gbp": "30-80", "verified_fixes": 38, "notes": "Degraded oil loses viscosity, causing low idle pressure. Diesel dilution from excessive idling worsens this." },
+        { "rank": 4, "action": "If above don't resolve, check oil pump wear and main bearing clearances", "difficulty": 5, "cost_gbp": "300-1500", "verified_fixes": 9, "notes": "Genuine low pressure at idle with good oil level suggests worn pump or excessive bearing clearance — specialist work." }
+      ]
+    },
+    {
+      "id": 16,
+      "symptom": "Propeller cavitation — boat loses grip, stern lifts, foam trail visible",
+      "component": "propeller / hull",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": "high frequency cavitation noise, irregular",
+      "onset": "sudden or at specific speeds",
+      "remedies": [
+        { "rank": 1, "action": "Inspect propeller — look for damage to leading edges and erosion pitting", "difficulty": 1, "cost_gbp": "0-300", "verified_fixes": 56, "notes": "Damaged leading edges cause cavitation at speed. Have prop refurbished or replaced." },
+        { "rank": 2, "action": "Check propeller depth and check if hull appendages are directing aerated water to prop", "difficulty": 2, "cost_gbp": "0-200", "verified_fixes": 33, "notes": "Hull gear (transducers, anodes, planing strakes) ahead of prop can feed it aerated water at speed." },
+        { "rank": 3, "action": "Review propeller pitch selection — too much pitch causes cavitation at high speed", "difficulty": 1, "cost_gbp": "0-300", "verified_fixes": 21, "notes": "Overpitched prop is over-loaded and cavitates at WOT. Check against engine manufacturer's WOT RPM range." }
+      ]
+    },
+    {
+      "id": 17,
+      "symptom": "Water in bilge coming from stern gland area — drips when engine running",
+      "component": "stern gland",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Adjust traditional stuffing box gland nut — a small drip when running is normal, tighten if excessive", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 79, "notes": "Traditional packed glands should drip 1 drop per minute when underway. Tightening a quarter turn usually resolves excess dripping." },
+        { "rank": 2, "action": "Repack stern gland with fresh packing cord — flax or PTFE", "difficulty": 2, "cost_gbp": "10-30", "verified_fixes": 51, "notes": "Old packing hardens and either drips or seizes. Repacking every 2-3 years is normal maintenance." },
+        { "rank": 3, "action": "Replace with dripless shaft seal if traditional gland is worn beyond adjustment", "difficulty": 3, "cost_gbp": "80-250", "verified_fixes": 29, "notes": "PSS or similar dripless seals eliminate dripping entirely and are retrofit to most boats." }
+      ]
+    },
+    {
+      "id": 18,
+      "symptom": "Alternator not charging — battery voltage dropping, charge light on",
+      "component": "electrical / alternator",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "sudden",
+      "remedies": [
+        { "rank": 1, "action": "Check drive belt — broken or slipping belt means no charge output", "difficulty": 1, "cost_gbp": "15-40", "verified_fixes": 68, "notes": "First check. A broken belt is immediately visible. Slipping belt smells burnt." },
+        { "rank": 2, "action": "Check alternator connections and earth — corroded terminals cause charging failure", "difficulty": 1, "cost_gbp": "0-10", "verified_fixes": 44, "notes": "Marine environment corrodes connections quickly. Clean and coat terminals with protective spray." },
+        { "rank": 3, "action": "Test alternator output with multimeter — should read 13.8-14.4V at idle", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 35, "notes": "If voltage is low at battery with good belt and connections, alternator regulator or diodes are suspect." },
+        { "rank": 4, "action": "Replace alternator — rebuilt units are often cheaper than new", "difficulty": 3, "cost_gbp": "80-250", "verified_fixes": 28, "notes": "Failed diodes or regulator inside alternator — usually not worth repairing. Replace unit." }
+      ]
+    },
+    {
+      "id": 19,
+      "symptom": "Grinding noise when propeller shaft rotates — worst when underway, less at idle",
+      "component": "cutlass bearing / shaft",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": "grinding, continuous when underway",
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Replace cutlass bearing — check for lateral play in shaft at P-bracket or stern tube", "difficulty": 3, "cost_gbp": "40-150", "verified_fixes": 74, "notes": "Worn cutlass bearing allows shaft to grind against bearing housing. Should have no lateral play." },
+        { "rank": 2, "action": "Inspect shaft for scoring or pitting at bearing contact points", "difficulty": 2, "cost_gbp": "0-500", "verified_fixes": 28, "notes": "A scored shaft will destroy replacement bearings quickly. May need polishing or replacement." },
+        { "rank": 3, "action": "Check for rope, line, or fishing gear wrapped around shaft", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 52, "notes": "Fouled shaft is very common and causes grinding when rotating. Always check before assuming mechanical failure." }
+      ]
+    },
+    {
+      "id": 20,
+      "symptom": "Engine revs surge and hunt at idle — RPM rises and falls rhythmically without throttle input",
+      "component": "fuel system / throttle",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Check for air leak in fuel system — particularly lift pump and filter connections", "difficulty": 2, "cost_gbp": "10-50", "verified_fixes": 59, "notes": "Air ingress causes hunting as fuel supply varies. Look for bubbles in clear fuel lines." },
+        { "rank": 2, "action": "Clean or replace idle speed control / throttle body if petrol engine", "difficulty": 2, "cost_gbp": "20-100", "verified_fixes": 41, "notes": "Dirty IAC valve or throttle body causes hunting on petrol engines." },
+        { "rank": 3, "action": "Check governor linkage and springs on diesel engine — inspect for wear or sticking", "difficulty": 2, "cost_gbp": "0-80", "verified_fixes": 26, "notes": "Sticky or worn governor causes RPM hunting on mechanical injection diesels." }
+      ]
+    },
+    {
+      "id": 21,
+      "symptom": "Excessive exhaust water — water pouring from exhaust even at rest",
+      "component": "cooling / exhaust",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "sudden",
+      "remedies": [
+        { "rank": 1, "action": "Check mixing elbow for failure — cracked or collapsed elbow floods the exhaust with water", "difficulty": 2, "cost_gbp": "60-200", "verified_fixes": 47, "notes": "If engine is not running and water is entering through exhaust, siphoning via mixing elbow is suspect." },
+        { "rank": 2, "action": "Check anti-siphon valve on raw water circuit — should be fitted above waterline", "difficulty": 2, "cost_gbp": "15-50", "verified_fixes": 38, "notes": "Failed or missing anti-siphon valve allows water to back-flood when engine is stopped." },
+        { "rank": 3, "action": "Check exhaust seacock is closed when engine not in use", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 22, "notes": "On some installations the exhaust outlet can allow back-flooding in a seaway." }
+      ]
+    },
+    {
+      "id": 22,
+      "symptom": "Intermittent loss of raw water flow — temperature spikes then recovers",
+      "component": "cooling system / raw water",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "intermittent",
+      "remedies": [
+        { "rank": 1, "action": "Inspect raw water strainer — may be partially blocked and clearing itself with flow", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 66, "notes": "Strainer builds up debris that intermittently restricts and clears. Clean at every engine check." },
+        { "rank": 2, "action": "Inspect raw water pump impeller — vanes may be cracking and intermittently blocking pump", "difficulty": 2, "cost_gbp": "30-80", "verified_fixes": 43, "notes": "Degrading impeller vanes can collapse and partially block the pump then release, causing intermittent symptoms." },
+        { "rank": 3, "action": "Check seacock for partial closure or debris on the inlet screen", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 28, "notes": "Ball valves can be inadvertently partially closed or have debris lodged against the inlet." }
+      ]
+    },
+    {
+      "id": 23,
+      "symptom": "Fuel consumption significantly higher than normal — no power change",
+      "component": "fuel system",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Check for external fuel leak — inspect all connections, lift pump, injector lines", "difficulty": 1, "cost_gbp": "0-30", "verified_fixes": 38, "notes": "A slow fuel leak can waste significant quantities without obvious symptoms. Smell for diesel and check bilge." },
+        { "rank": 2, "action": "Check bottom for fouling — heavy growth significantly increases fuel consumption", "difficulty": 1, "cost_gbp": "0-500", "verified_fixes": 71, "notes": "A fouled hull can increase fuel consumption by 20-40%. Often overlooked." },
+        { "rank": 3, "action": "Have injectors tested — worn injectors that dribble waste fuel", "difficulty": 3, "cost_gbp": "80-250", "verified_fixes": 24, "notes": "Dripping injectors increase consumption and cause black smoke. Easy to diagnose with flow test." }
+      ]
+    },
+    {
+      "id": 24,
+      "symptom": "Engine misfiring under load — rough running, occasional bang or stumble at speed",
+      "component": "ignition / injection",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": "irregular combustion events",
+      "onset": "gradual or sudden",
+      "remedies": [
+        { "rank": 1, "action": "Replace spark plugs and check HT leads on petrol engine", "difficulty": 1, "cost_gbp": "20-60", "verified_fixes": 57, "notes": "Fouled or worn spark plugs cause misfiring under load. Replace as a set." },
+        { "rank": 2, "action": "Test injectors on diesel — have spray pattern and opening pressure checked", "difficulty": 3, "cost_gbp": "80-250", "verified_fixes": 39, "notes": "A misfiring cylinder on diesel is almost always an injector issue. Compression test to rule out mechanical." },
+        { "rank": 3, "action": "Check for water contamination in fuel", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 31, "notes": "Water in fuel causes misfiring and stumbling, especially at higher loads." }
+      ]
+    },
+    {
+      "id": 25,
+      "symptom": "Banging or clanking from under the boat when running — goes away at low speed",
+      "component": "propeller / shaft",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": "irregular banging at speed",
+      "onset": "sudden",
+      "remedies": [
+        { "rank": 1, "action": "Check for fouled propeller or object wrapped around shaft — stop engine immediately", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 83, "notes": "Rope, net, or debris around the shaft is the most common cause of sudden banging from aft." },
+        { "rank": 2, "action": "Inspect propeller blades for strike damage causing imbalance and cyclical impact", "difficulty": 1, "cost_gbp": "0-300", "verified_fixes": 41, "notes": "A badly bent blade causes severe vibration and banging at speed. Boat should not be run until prop is checked." },
+        { "rank": 3, "action": "Check engine mounts — collapsed mount allows engine to move and knock against bearers", "difficulty": 2, "cost_gbp": "80-300", "verified_fixes": 19, "notes": "Completely failed mount lets the engine shift under load, causing banging from engine bay rather than aft." }
+      ]
+    },
+    {
+      "id": 26,
+      "symptom": "Helm feels heavy or steering is stiff — no hydraulic leak visible",
+      "component": "steering / helm",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Check and top up hydraulic steering fluid — air in system causes stiffness", "difficulty": 1, "cost_gbp": "10-30", "verified_fixes": 48, "notes": "Low fluid from small leak or air ingress causes heavy steering. Bleed system after topping up." },
+        { "rank": 2, "action": "Inspect rudder bearings and pintles for wear or seizure", "difficulty": 3, "cost_gbp": "50-300", "verified_fixes": 31, "notes": "Worn or corroded rudder fittings cause increasingly heavy helm, especially noticeable at slow speed." },
+        { "rank": 3, "action": "Check tiller arm and steering cable connections for binding or corrosion", "difficulty": 2, "cost_gbp": "10-100", "verified_fixes": 24, "notes": "Cable steering systems corrode internally. Full-lock-to-lock travel should be smooth and even." }
+      ]
+    },
+    {
+      "id": 27,
+      "symptom": "Acrid burning smell from engine bay — no smoke visible",
+      "component": "electrical / belts",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "sudden",
+      "remedies": [
+        { "rank": 1, "action": "Check drive belts for slipping or glazing — slipping belt smells strongly of burning rubber", "difficulty": 1, "cost_gbp": "15-40", "verified_fixes": 62, "notes": "Slipping belt is the most common cause of burning smell with no visible smoke." },
+        { "rank": 2, "action": "Inspect wiring looms for chafing or overheating cables", "difficulty": 2, "cost_gbp": "0-100", "verified_fixes": 38, "notes": "Burning plastic smell. Check areas where cables may chafe against engine. High priority — fire risk." },
+        { "rank": 3, "action": "Check if anything (rags, bilge foam, debris) has fallen onto exhaust manifold", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 27, "notes": "Objects on hot exhaust are a common cause of burning smell with no obvious electrical fault." }
+      ]
+    },
+    {
+      "id": 28,
+      "symptom": "Diesel engine will not start — cranks normally but refuses to fire",
+      "component": "fuel system / compression",
+      "engine_types": ["inboard diesel"],
+      "frequency_signature": null,
+      "onset": "sudden",
+      "remedies": [
+        { "rank": 1, "action": "Bleed air from the fuel system — crack injector unions while cranking to purge air", "difficulty": 2, "cost_gbp": "0", "verified_fixes": 91, "notes": "Air in fuel is the most common cause of no-start on diesel. Even a small air lock prevents starting." },
+        { "rank": 2, "action": "Check fuel level and make sure correct fuel valve is open", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 44, "notes": "Simple checks first — empty tank or closed valve will prevent starting." },
+        { "rank": 3, "action": "Test glow plugs — a diesel won't start when cold with all plugs failed", "difficulty": 2, "cost_gbp": "30-80", "verified_fixes": 33, "notes": "Failed glow plugs prevent cold starting. Test individually and replace any that don't heat up." }
+      ]
+    },
+    {
+      "id": 29,
+      "symptom": "Excessive condensation or water ingress into engine compartment — rust forming on components",
+      "component": "ventilation",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Improve engine bay ventilation — check vents are clear and add ventilation if inadequate", "difficulty": 2, "cost_gbp": "20-100", "verified_fixes": 43, "notes": "Poor ventilation causes condensation that accelerates corrosion. Engine bays need both intake and exhaust ventilation." },
+        { "rank": 2, "action": "Check for deck leaks above engine bay — seal hatches, inspection ports, and deck fittings", "difficulty": 2, "cost_gbp": "10-80", "verified_fixes": 38, "notes": "Water ingress from above is often mistaken for condensation. Check after rain." },
+        { "rank": 3, "action": "Run engine regularly to warm the bay and dry moisture — corrosion worsens on boats left unused", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 29, "notes": "Regular use is the best corrosion prevention. Cold unused engine bays collect moisture." }
+      ]
+    },
+    {
+      "id": 30,
+      "symptom": "Boat vibrates at a specific RPM band — fine above and below, rough through a narrow range",
+      "component": "resonance / mounts",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": "resonant vibration at specific RPM, typically 1200-1800 RPM",
+      "onset": "gradual or always present",
+      "remedies": [
+        { "rank": 1, "action": "Identify and pass through the resonant RPM range — all hulls have them, not necessarily a fault", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 67, "notes": "Every boat has natural hull frequencies that amplify vibration at certain RPMs. If it has always done this, it may be normal." },
+        { "rank": 2, "action": "Replace engine mounts — worn mounts allow resonant frequencies to transmit to hull more easily", "difficulty": 2, "cost_gbp": "80-300", "verified_fixes": 39, "notes": "Stiffened or deteriorated mounts no longer isolate engine vibration and make resonant bands worse." },
+        { "rank": 3, "action": "Check propeller pitch and have it adjusted — incorrectly pitched prop can excite hull resonance", "difficulty": 2, "cost_gbp": "0-200", "verified_fixes": 21, "notes": "Changing propeller pitch shifts the resonant RPM band to a different speed — sometimes all that is needed." }
+      ]
+    },
+    {
+      "id": 31,
+      "symptom": "Coolant level dropping but no visible external leak — no overheating yet",
+      "component": "cooling system / head gasket",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Check for head gasket failure — look for mayo emulsion under oil cap and exhaust smoke", "difficulty": 2, "cost_gbp": "0-800", "verified_fixes": 54, "notes": "Coolant disappearing internally into combustion is early head gasket failure. Catch it before overheating destroys the head." },
+        { "rank": 2, "action": "Pressure test cooling system — check for small external leaks at hoses, clips, and heat exchanger", "difficulty": 2, "cost_gbp": "0-50", "verified_fixes": 41, "notes": "Small external leaks may only drip when the system is hot and under pressure, making them hard to spot visually." },
+        { "rank": 3, "action": "Inspect mixing elbow and wet exhaust hose for internal seepage", "difficulty": 2, "cost_gbp": "60-200", "verified_fixes": 19, "notes": "A weeping mixing elbow can lose coolant internally into the exhaust system." }
+      ]
+    },
+    {
+      "id": 32,
+      "symptom": "Vibration felt through hull when in neutral at dock — not present when in gear",
+      "component": "engine / mounts",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": "vibration at idle RPM, disappears under load",
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Check idle speed setting — too low an idle causes vibration on some engines", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 44, "notes": "Raising idle speed slightly often reduces or eliminates dock vibration." },
+        { "rank": 2, "action": "Check engine mounts — a mount may be collapsing on one side only", "difficulty": 2, "cost_gbp": "80-300", "verified_fixes": 35, "notes": "One failed mount causes the engine to sit at an angle, transmitting vibration unevenly." },
+        { "rank": 3, "action": "Check for air in fuel or partially blocked injector on one cylinder — causes rough idle", "difficulty": 2, "cost_gbp": "0-200", "verified_fixes": 21, "notes": "Rough idle from uneven cylinder contribution causes hull vibration in neutral." }
+      ]
+    },
+    {
+      "id": 33,
+      "symptom": "Loud slapping noise from engine — sounds like something loose inside",
+      "component": "engine internals",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": "irregular slapping, not strictly RPM-proportional",
+      "onset": "sudden",
+      "remedies": [
+        { "rank": 1, "action": "Stop engine immediately and check oil level — do not restart without investigation", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 39, "notes": "A sudden slapping noise that is not RPM-proportional may indicate a loose component inside the engine. Running risks catastrophic damage." },
+        { "rank": 2, "action": "Check for a broken or loose heat shield or engine cover that is vibrating against engine", "difficulty": 1, "cost_gbp": "0-20", "verified_fixes": 34, "notes": "Loose external metalwork can produce convincingly internal-sounding noise. Check before assuming the worst." },
+        { "rank": 3, "action": "Have engine inspected by a marine engineer — borescope inspection of cylinders recommended", "difficulty": 5, "cost_gbp": "200-2000+", "verified_fixes": 12, "notes": "If external causes are ruled out, internal inspection is required before the engine is run again." }
+      ]
+    },
+    {
+      "id": 34,
+      "symptom": "Wet exhaust dripping water from hose joints or mixing elbow",
+      "component": "exhaust system",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Replace wet exhaust hose and check all jubilee clip positions — hose deteriorates from inside", "difficulty": 2, "cost_gbp": "40-120", "verified_fixes": 58, "notes": "Marine wet exhaust hose has a short service life. Internal carbon buildup and swelling causes leaks at joints." },
+        { "rank": 2, "action": "Replace mixing elbow — cast elbows corrode through from inside over several years", "difficulty": 2, "cost_gbp": "60-200", "verified_fixes": 44, "notes": "Mixing elbows are consumable items. Most manufacturers recommend replacement every 5 years on salt water use." },
+        { "rank": 3, "action": "Check exhaust throughhull and silencer connections for cracking or joint failure", "difficulty": 2, "cost_gbp": "20-150", "verified_fixes": 18, "notes": "Fibreglass silencers crack, especially around pipe entry points. Inspect in good lighting." }
+      ]
+    },
+    {
+      "id": 35,
+      "symptom": "Engine runs hot only in shallow water or near seabed — fine in deep water",
+      "component": "cooling system",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "situational",
+      "remedies": [
+        { "rank": 1, "action": "Check raw water inlet — in shallow water, sediment, silt, and weed can block the seacock inlet screen", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 52, "notes": "Very common in tidal harbours and anchorages. Raw water strainer should always be checked after shallow water operation." },
+        { "rank": 2, "action": "Clean seacock inlet strainer and increase monitoring frequency in shallow or silty areas", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 38, "notes": "Operational practice — slow down in very shallow water if overheating tendency is known." }
+      ]
+    },
+    {
+      "id": 36,
+      "symptom": "Strong diesel smell in the cabin — not from exhaust",
+      "component": "fuel system",
+      "engine_types": ["inboard diesel"],
+      "frequency_signature": null,
+      "onset": "sudden or gradual",
+      "remedies": [
+        { "rank": 1, "action": "Inspect all fuel lines for weeping joints, cracked hose, or loose clips — check when engine is warm", "difficulty": 2, "cost_gbp": "10-80", "verified_fixes": 67, "notes": "Diesel fuel smell in cabin is a safety concern. Find and fix the source before using the boat." },
+        { "rank": 2, "action": "Check fuel tank breather — a blocked breather causes fuel to be pushed through tank seams", "difficulty": 1, "cost_gbp": "0-20", "verified_fixes": 28, "notes": "Blocked tank breather creates vacuum/pressure that can push fuel through small leaks." },
+        { "rank": 3, "action": "Inspect injector leak-off pipes and unions for seepage", "difficulty": 2, "cost_gbp": "10-50", "verified_fixes": 21, "notes": "High-pressure injector pipes and return pipes can seep at unions, causing smell without obvious dripping." }
+      ]
+    },
+    {
+      "id": 37,
+      "symptom": "Gearbox will not engage — lever moves but no drive in forward or reverse",
+      "component": "gearbox",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "sudden",
+      "remedies": [
+        { "rank": 1, "action": "Check cable/linkage connection at gearbox — may have come off or snapped", "difficulty": 1, "cost_gbp": "0-50", "verified_fixes": 63, "notes": "Gear cable failure is the most common cause of sudden loss of gear selection. Check before opening gearbox." },
+        { "rank": 2, "action": "Check gearbox oil level — some boxes will not engage if oil is very low", "difficulty": 1, "cost_gbp": "10-30", "verified_fixes": 31, "notes": "Hydraulic gearboxes rely on oil pressure for clutch engagement. Low oil = no drive." },
+        { "rank": 3, "action": "Check gearbox hydraulic pressure — may need a marine engineer with a pressure gauge", "difficulty": 4, "cost_gbp": "100-500+", "verified_fixes": 14, "notes": "Internal clutch or hydraulic pump failure inside gearbox — specialist diagnosis required." }
+      ]
+    },
+    {
+      "id": 38,
+      "symptom": "High frequency whining or buzzing from engine bay — distinct from belt noise, constant pitch",
+      "component": "raw water pump",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": "high frequency constant pitch hum or buzz",
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Inspect raw water pump impeller and housing — worn housing causes cavitation noise", "difficulty": 2, "cost_gbp": "30-150", "verified_fixes": 44, "notes": "A worn pump housing allows the impeller to slip, causing a constant high-frequency whine." },
+        { "rank": 2, "action": "Check for air ingestion in raw water system — air causes cavitation hum", "difficulty": 2, "cost_gbp": "0-30", "verified_fixes": 33, "notes": "Air leak at seacock or strainer connection causes pump to cavitate and produce buzzing sound." },
+        { "rank": 3, "action": "Inspect fuel lift pump — diaphragm failure causes buzzing as pump struggles to deliver", "difficulty": 2, "cost_gbp": "30-80", "verified_fixes": 17, "notes": "Failing lift pump produces a buzzing or chattering sound at idle." }
+      ]
+    },
+    {
+      "id": 39,
+      "symptom": "Engine temperature runs cooler than normal — thermostat area cold",
+      "component": "thermostat",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "sudden",
+      "remedies": [
+        { "rank": 1, "action": "Replace thermostat — a stuck-open thermostat prevents the engine reaching operating temperature", "difficulty": 2, "cost_gbp": "15-40", "verified_fixes": 78, "notes": "Thermostat stuck open is almost always the cause of running too cool. Cheap and quick to fix." },
+        { "rank": 2, "action": "Check temperature gauge sender for accuracy — sender failure can give false low readings", "difficulty": 1, "cost_gbp": "15-40", "verified_fixes": 23, "notes": "Check gauge with a different sender before doing any other work." }
+      ]
+    },
+    {
+      "id": 40,
+      "symptom": "Unusual vibration only at full throttle — fine at part throttle",
+      "component": "propeller / drive",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": "vibration at high RPM only",
+      "onset": "gradual or sudden",
+      "remedies": [
+        { "rank": 1, "action": "Inspect propeller for minor blade damage or fouling that only loads at high RPM", "difficulty": 1, "cost_gbp": "0-300", "verified_fixes": 61, "notes": "Small prop imbalance or damage is only felt under high load. Inspect after every season." },
+        { "rank": 2, "action": "Check shaft coupling bolts for looseness — high RPM can reveal coupling play", "difficulty": 2, "cost_gbp": "0-30", "verified_fixes": 39, "notes": "Coupling bolts work loose over time and cause vibration that is most noticeable at high speed." },
+        { "rank": 3, "action": "Check engine mounts are all equally loaded — one loose mount allows movement at high RPM", "difficulty": 2, "cost_gbp": "80-300", "verified_fixes": 24, "notes": "All four mounts should be equally tensioned. A loose mount lets the engine rock at full power." }
+      ]
+    },
+    {
+      "id": 41,
+      "symptom": "Oil consumption noticeably increased — topping up every few hours",
+      "component": "engine internals / seals",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Check for external oil leaks — inspect rocker cover gasket, sump gasket, and all oil seals", "difficulty": 1, "cost_gbp": "10-80", "verified_fixes": 56, "notes": "External leaks are common and obvious on close inspection. Look for oil staining on engine and below." },
+        { "rank": 2, "action": "Check for oil burning — blue smoke from exhaust, especially on start-up or deceleration", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 41, "notes": "Oil burning means worn rings, valve seals, or turbo seals. Run a compression test to assess severity." },
+        { "rank": 3, "action": "Check PCV/crankcase breather system — blocked breather pressurises crankcase and forces oil past seals", "difficulty": 1, "cost_gbp": "5-30", "verified_fixes": 28, "notes": "Blocked crankcase breather is a common, cheap cause of oil consumption and external leaks." }
+      ]
+    },
+    {
+      "id": 42,
+      "symptom": "Engine starts and runs for a few seconds then cuts out — repeating",
+      "component": "fuel system",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "sudden",
+      "remedies": [
+        { "rank": 1, "action": "Check fuel supply — fuel may be running out, valve may be closed, or tank pickup may be blocked", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 58, "notes": "Engine runs on fuel in the lines then stops when supply fails. Basic checks first." },
+        { "rank": 2, "action": "Bleed air from diesel fuel system thoroughly", "difficulty": 2, "cost_gbp": "0", "verified_fixes": 47, "notes": "Air locks allow engine to start and run until the air pocket reaches injectors, then it dies." },
+        { "rank": 3, "action": "Check for overheating — engine cuts out on thermal protection if coolant or oil temperature is too high", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 29, "notes": "Check temperature gauges and alarm history. Some engines have automatic cut-out protection." }
+      ]
+    },
+    {
+      "id": 43,
+      "symptom": "Severe shaking of the whole boat at anchor in neutral — engine running normally",
+      "component": "engine mounts / resonance",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": "whole-hull resonance at idle",
+      "onset": "after work or gradual",
+      "remedies": [
+        { "rank": 1, "action": "Check all engine mount condition — one or more may have completely failed", "difficulty": 2, "cost_gbp": "80-300", "verified_fixes": 49, "notes": "A fully collapsed mount allows direct transmission of engine vibration to hull, causing whole-boat shaking." },
+        { "rank": 2, "action": "Check shaft coupling alignment — recent shaft work can leave alignment incorrect, exciting hull resonance", "difficulty": 3, "cost_gbp": "0-200", "verified_fixes": 28, "notes": "Misaligned coupling causes vibration at idle that transmits through shaft into hull." },
+        { "rank": 3, "action": "Have engine idle speed checked and adjusted", "difficulty": 1, "cost_gbp": "0-50", "verified_fixes": 19, "notes": "Idle speed at an unfortunate RPM can excite hull natural frequency. Moving idle speed slightly often helps." }
+      ]
+    },
+    {
+      "id": 44,
+      "symptom": "Exhaust emits sparks or glowing particles at night",
+      "component": "exhaust / combustion",
+      "engine_types": ["inboard diesel"],
+      "frequency_signature": null,
+      "onset": "sudden",
+      "remedies": [
+        { "rank": 1, "action": "Check for dry exhaust — loss of water injection into exhaust allows soot to ignite", "difficulty": 2, "cost_gbp": "30-80", "verified_fixes": 38, "notes": "Sparking exhaust usually means raw water is not entering the exhaust — check impeller and raw water flow immediately." },
+        { "rank": 2, "action": "Have injectors tested — overfuelling from worn injectors produces unburned carbon that ignites in exhaust", "difficulty": 3, "cost_gbp": "80-250", "verified_fixes": 21, "notes": "Heavy carbon deposits in a dry/hot exhaust can ignite. Sparking exhaust is a fire risk." }
+      ]
+    },
+    {
+      "id": 45,
+      "symptom": "Battery draining overnight with engine off — nothing obvious left on",
+      "component": "electrical",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Perform a current draw test — measure DC draw with everything supposedly off, isolate circuits one by one", "difficulty": 2, "cost_gbp": "0", "verified_fixes": 61, "notes": "Use a multimeter in series on the negative terminal. Any draw over 50mA with everything off indicates a fault." },
+        { "rank": 2, "action": "Check bilge pump for continuous running or stuck float switch", "difficulty": 1, "cost_gbp": "0-30", "verified_fixes": 44, "notes": "A stuck float switch keeps bilge pump running continuously, draining battery overnight." },
+        { "rank": 3, "action": "Check battery condition — old batteries lose capacity rapidly and appear to drain when they are simply worn out", "difficulty": 1, "cost_gbp": "80-200", "verified_fixes": 38, "notes": "A battery over 4 years old should be load-tested. Most marine battery failures look like unexplained discharge." }
+      ]
+    },
+    {
+      "id": 46,
+      "symptom": "Injector clatter — sharp metallic ticking from engine, more prominent when cold",
+      "component": "fuel injection",
+      "engine_types": ["inboard diesel"],
+      "frequency_signature": "sharp tick, RPM-proportional, from injector area",
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Have injectors tested for opening pressure — injectors that open at wrong pressure cause diesel knock", "difficulty": 3, "cost_gbp": "80-250", "verified_fixes": 53, "notes": "Injector clattering is diesel knock from incorrect injection timing or pressure. Common on older engines." },
+        { "rank": 2, "action": "Check injection pump timing — retarded timing causes hard knock especially when cold", "difficulty": 4, "cost_gbp": "80-200", "verified_fixes": 29, "notes": "Timing can drift on older mechanical injection pumps. Cold knock that reduces when warm often points to timing." },
+        { "rank": 3, "action": "Use correct specification diesel fuel — biodiesel blends and poor-quality fuel cause increased knock", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 17, "notes": "Low cetane diesel or heavily blended biodiesel causes diesel knock. Premium marine diesel reduces this." }
+      ]
+    },
+    {
+      "id": 47,
+      "symptom": "Fuel in the bilge — strong smell and sheen on bilge water",
+      "component": "fuel system",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "sudden",
+      "remedies": [
+        { "rank": 1, "action": "Do not run the engine or any electrical equipment — evacuate if petrol. Ventilate thoroughly.", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 100, "notes": "SAFETY CRITICAL. Petrol vapour in bilge is an explosion risk. Diesel is less volatile but still a fire risk. Find and fix the leak before resuming engine use." },
+        { "rank": 2, "action": "Trace the fuel source — check all fuel lines, tank connections, and fuel filter housings", "difficulty": 2, "cost_gbp": "10-100", "verified_fixes": 61, "notes": "Common failure points: fuel hose at tank pickup, filter bowl O-ring, lift pump diaphragm." }
+      ]
+    },
+    {
+      "id": 48,
+      "symptom": "Speedometer reading erratically or not at all — GPS speed is correct",
+      "component": "instrumentation / paddle wheel",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "sudden or gradual",
+      "remedies": [
+        { "rank": 1, "action": "Remove and clean paddle wheel transducer — often fouled with growth or debris", "difficulty": 1, "cost_gbp": "0-50", "verified_fixes": 72, "notes": "Paddle wheel fouling is the most common cause of erratic or zero speed reading." },
+        { "rank": 2, "action": "Check transducer connections and cable for corrosion or damage", "difficulty": 1, "cost_gbp": "0-30", "verified_fixes": 38, "notes": "Corroded connections at the back of the instrument or at the transducer cause intermittent readings." },
+        { "rank": 3, "action": "Replace paddle wheel or transducer unit if above don't resolve", "difficulty": 2, "cost_gbp": "30-100", "verified_fixes": 24, "notes": "Transducer bodies crack and paddle wheels break. Replacement is inexpensive and easy to self-fit." }
+      ]
+    },
+    {
+      "id": 49,
+      "symptom": "Turbocharger making a high-pitched whine — louder on acceleration",
+      "component": "turbocharger",
+      "engine_types": ["inboard diesel"],
+      "frequency_signature": "high-pitched whine increasing on throttle application",
+      "onset": "gradual",
+      "remedies": [
+        { "rank": 1, "action": "Check turbo oil feed and return pipes for blockage — turbo must have clean oil supply", "difficulty": 2, "cost_gbp": "0-80", "verified_fixes": 41, "notes": "Insufficient lubrication causes turbo bearing noise. Always let a turbocharged engine idle for 2 minutes before shutdown." },
+        { "rank": 2, "action": "Inspect turbo intake for collapsed hose or blockage causing noise from restricted airflow", "difficulty": 1, "cost_gbp": "0-30", "verified_fixes": 28, "notes": "Partially collapsed intake hose causes whistle or whine that increases with demand." },
+        { "rank": 3, "action": "Have turbo inspected for shaft play or bearing wear by a specialist", "difficulty": 4, "cost_gbp": "200-800", "verified_fixes": 18, "notes": "Turbo bearing failure produces increasing whine then eventual failure. Shaft should have no radial play." }
+      ]
+    },
+    {
+      "id": 50,
+      "symptom": "Boat will not plane — engine reaches WOT RPM but boat stays in displacement mode",
+      "component": "propeller / weight / trim",
+      "engine_types": ["inboard diesel", "inboard petrol"],
+      "frequency_signature": null,
+      "onset": "gradual or sudden",
+      "remedies": [
+        { "rank": 1, "action": "Check propeller pitch — pitch too high prevents engine reaching WOT and planing", "difficulty": 1, "cost_gbp": "0-300", "verified_fixes": 58, "notes": "Engine should reach manufacturer's WOT RPM range. Too much pitch prevents this and stops the boat planing." },
+        { "rank": 2, "action": "Check boat bottom for fouling — heavy growth prevents planing even with adequate power", "difficulty": 1, "cost_gbp": "0-500", "verified_fixes": 49, "notes": "A badly fouled hull can add enormous drag. Clean bottom is essential for planing performance." },
+        { "rank": 3, "action": "Adjust trim — incorrect trim angle can prevent planing despite adequate power", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 38, "notes": "Too much bow-up trim prevents the boat getting over the hump. Adjust tabs or drive trim." },
+        { "rank": 4, "action": "Check weight distribution and total load — overloaded boat may not plane in certain conditions", "difficulty": 1, "cost_gbp": "0", "verified_fixes": 24, "notes": "Heavy load, especially aft, prevents planing. Redistribute weight forward and reduce load." }
+      ]
+    }
+  ]
+}
