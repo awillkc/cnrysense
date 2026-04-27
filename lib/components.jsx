@@ -271,10 +271,11 @@ function BottomNav({ active, onNav, alertBadge, style: navStyle = 'labels' }) {
   const isPill = navStyle === 'pill';
   const hideLabels = navStyle === 'icons';
 
+  // Layout owner (IOSDevice's bottomBar slot) is responsible for positioning.
+  // We render as a plain block so it can be pinned, sticky, or in-flow as needed.
   return (
     <div style={{
-      position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 50,
-      padding: isPill ? '0 20px 22px' : '0', paddingBottom: isPill ? 22 : 0,
+      padding: isPill ? '0 20px 22px' : '0',
     }}>
       <div style={{
         display: 'flex', justifyContent: 'space-around', alignItems: 'center',

@@ -189,7 +189,7 @@ function IOSList({ header, children, dark = false }) {
 // ─────────────────────────────────────────────────────────────
 function IOSDevice({
   children, width = 402, height = 874, dark = false,
-  title, keyboard = false,
+  title, keyboard = false, bottomBar = null,
 }) {
   return (
     <div style={{
@@ -211,9 +211,15 @@ function IOSDevice({
       {/* nav + content */}
       <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         {title !== undefined && <IOSNavBar title={title} dark={dark} />}
-        <div style={{ flex: 1, overflow: 'auto' }}>{children}</div>
+        <div style={{ flex: 1, overflow: 'auto', position: 'relative' }} className="scroll-hidden">{children}</div>
         {keyboard && <IOSKeyboard dark={dark} />}
       </div>
+      {/* bottom bar — pinned overlay above home indicator, below it in z so the indicator stays visible */}
+      {bottomBar && (
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 55 }}>
+          {bottomBar}
+        </div>
+      )}
       {/* home indicator — always on top */}
       <div style={{
         position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 60,
