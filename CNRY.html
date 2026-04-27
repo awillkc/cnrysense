@@ -3,48 +3,65 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>cnry — engine health</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>cnrysense — engine health prototype</title>
 <link rel="stylesheet" href="styles.css"/>
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  html, body { background: #000; min-height: 100vh; }
+  html, body { background: #07070A; min-height: 100vh; font-family: 'Inter', sans-serif; }
   .stage {
     min-height: 100vh; display: flex; align-items: center; justify-content: center;
-    padding: 40px 20px; background:
-      radial-gradient(ellipse 80% 60% at 50% 20%, rgba(245,197,38,0.04), transparent 60%),
-      #000;
+    padding: 180px 20px 80px;
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 20%, rgba(245,197,38,0.03), transparent 60%),
+      #07070A;
   }
-  .phone-wrap {
-    width: 390px; height: 844px; border-radius: 54px; overflow: hidden;
-    position: relative; background: #0A0A0A;
-    box-shadow: 0 40px 120px rgba(0,0,0,0.8), 0 0 0 10px #111, 0 0 0 11px rgba(255,255,255,0.06);
+  /* Drop a deeper shadow on the iOS frame so it pops against the dark stage. */
+  .phone-stage-shadow { filter: drop-shadow(0 40px 120px rgba(0,0,0,0.7)); }
+
+  /* ─── Penumbra slider (demo control) ───────────────────────── */
+  .pen-control {
+    position: fixed; top: 28px; left: 50%; transform: translateX(-50%); z-index: 300;
+    width: min(780px, calc(100% - 40px));
+    padding: 18px 24px 20px;
+    background: rgba(14,14,18,0.82); backdrop-filter: blur(22px) saturate(160%); -webkit-backdrop-filter: blur(22px) saturate(160%);
+    border: 1px solid rgba(255,255,255,0.08); border-radius: 22px;
+    color: #fff; font-family: 'Inter', sans-serif;
   }
-  .dyn-island {
-    position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
-    width: 120px; height: 34px; border-radius: 20px; background: #000; z-index: 100;
+  .pen-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+  .pen-lockup { display: flex; align-items: center; gap: 10px; }
+  .pen-lockup .lk { font-weight: 900; letter-spacing: -0.04em; font-size: 20px; line-height: 1; text-transform: lowercase; }
+  .pen-lockup .lk-cnry { color: #F5C526; }
+  .pen-lockup .lk-sense { color: #F1EBDD; }
+  .pen-meta { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.18em; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+  .pen-phrase-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 12px; }
+  .pen-phrase { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 22px; letter-spacing: -0.01em; color: #fff; transition: color 0.4s ease; }
+  .pen-score { font-family: 'Instrument Serif', serif; font-size: 40px; line-height: 1; font-weight: 400; letter-spacing: -0.03em; color: #fff; font-variant-numeric: tabular-nums; }
+
+  .pen-rail-wrap { position: relative; padding: 10px 0 22px; cursor: pointer; }
+  .pen-rail { position: relative; height: 10px; border-radius: 6px; overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.35); }
+  .pen-rail-labels { display: flex; justify-content: space-between; margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.18em;
+    color: rgba(255,255,255,0.38); text-transform: uppercase; }
+  .pen-thumb {
+    position: absolute; top: 50%; width: 30px; height: 30px; border-radius: 15px;
+    background: #fff; border: 3px solid rgba(255,255,255,0.95);
+    transform: translate(-50%, -50%); cursor: grab;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.6), 0 0 0 4px rgba(255,255,255,0.08);
+    transition: box-shadow 0.2s ease;
   }
-  .status-bar {
-    position: absolute; top: 0; left: 0; right: 0; height: 54px; z-index: 80;
-    display: flex; align-items: center; justify-content: space-between; padding: 18px 32px 0;
-    color: #fff; font-family: -apple-system, 'SF Pro Display', system-ui; font-weight: 600; font-size: 15px;
-    pointer-events: none;
+  .pen-thumb:active { cursor: grabbing; box-shadow: 0 6px 22px rgba(0,0,0,0.7), 0 0 0 8px rgba(255,255,255,0.1); }
+  .pen-thumb .thumb-dot {
+    position: absolute; inset: 4px; border-radius: 50%; transition: background 0.4s ease;
   }
-  .home-ind {
-    position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
-    width: 134px; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.85); z-index: 90;
+
+  .caption { position: absolute; bottom: -32px; left: 0; right: 0; text-align: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.22em;
+    color: rgba(255,255,255,0.3); text-transform: uppercase;
   }
-  .caption {
-    position: absolute; bottom: -34px; left: 0; right: 0; text-align: center;
-    font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 13px;
-    letter-spacing: 0.005em; color: rgba(255,255,255,0.5);
-  }
-  .caption .dot { color: rgba(255,255,255,0.25); margin: 0 8px; font-style: normal; }
-  .caption .sixth { color: #6B5ED8; }
 </style>
 </head>
 <body>
@@ -52,6 +69,8 @@
 
 <script src="lib/data.js"></script>
 <script src="lib/diagnostics.js"></script>
+<script src="lib/penumbra.js"></script>
+<script type="text/babel" src="lib/ios-frame.jsx"></script>
 <script type="text/babel" src="lib/components.jsx"></script>
 <script type="text/babel" src="lib/screens.jsx"></script>
 
@@ -61,26 +80,40 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "scoreDisplay": "numeral",
   "sparkVariant": "area",
   "typeTone": "instrument",
-  "navStyle": "labels",
-  "initialState": "watching"
+  "navStyle": "icons"
 }/*EDITMODE-END*/;
 
-function PhoneFrame({ children }) {
+function PhoneFrame({ children, dark = true }) {
+  // Wraps the proper iOS 26 device frame from lib/ios-frame.jsx.
+  // We pass `title` as undefined so IOSDevice does not render its built-in
+  // nav bar — our screens render their own headers.
   return (
-    <div className="phone-wrap">
-      <div className="dyn-island"/>
-      <div className="status-bar">
-        <span>9:41</span>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 14 }}>
-          <svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="0.6" fill="#fff"/><rect x="4.5" y="5" width="3" height="6" rx="0.6" fill="#fff"/><rect x="9" y="2.5" width="3" height="8.5" rx="0.6" fill="#fff"/><rect x="13.5" y="0" width="3" height="11" rx="0.6" fill="#fff"/></svg>
-          <svg width="24" height="11" viewBox="0 0 24 11"><rect x="0.5" y="0.5" width="20" height="10" rx="3" stroke="#fff" strokeOpacity="0.4" fill="none"/><rect x="2" y="2" width="17" height="7" rx="1.5" fill="#fff"/><rect x="21" y="3.5" width="1.5" height="4" rx="0.5" fill="#fff" opacity="0.4"/></svg>
-        </span>
-      </div>
+    <IOSDevice width={390} height={844} dark={dark}>
       {children}
-      <div className="home-ind"/>
-    </div>
+    </IOSDevice>
   );
 }
+
+// Build a live "state" object that looks like ENGINE_STATES[key] but is derived
+function useDerivedState(p) {
+  return React.useMemo(() => {
+    const d = window.Penumbra.derive(p);
+    // make it discoverable as a key the existing screens can use
+    window.ENGINE_STATES.penumbra = d;
+    window.RHYTHM_READINGS.penumbra = window.Penumbra.rhythmTimelineAt(p);
+    return d;
+  }, [p]);
+}
+
+// Nuke any stale legacy state so the new prototype starts clean.
+(function clearLegacy() {
+  try {
+    const legacyState = localStorage.getItem('cnry-state');
+    if (legacyState && legacyState !== 'penumbra') {
+      localStorage.removeItem('cnry-state');
+    }
+  } catch {}
+})();
 
 function App() {
   const [tweaks, setTweaks] = React.useState(() => {
@@ -90,11 +123,17 @@ function App() {
     } catch { return TWEAK_DEFAULTS; }
   });
   const [tweakMode, setTweakMode] = React.useState(false);
-  const [state, setState] = React.useState(() => localStorage.getItem('cnry-state') || tweaks.initialState);
+  const [p, setP] = React.useState(() => {
+    const v = parseFloat(localStorage.getItem('cnry-penumbra'));
+    return Number.isFinite(v) ? v : 82;
+  });
   const [screen, setScreen] = React.useState(() => localStorage.getItem('cnry-screen') || 'home');
   const [metric, setMetric] = React.useState(null);
 
-  React.useEffect(() => { localStorage.setItem('cnry-state', state); }, [state]);
+  const derived = useDerivedState(p);
+  const stateKey = 'penumbra';
+
+  React.useEffect(() => { localStorage.setItem('cnry-penumbra', String(p)); }, [p]);
   React.useEffect(() => { localStorage.setItem('cnry-screen', screen); }, [screen]);
   React.useEffect(() => { localStorage.setItem('cnry-tweaks', JSON.stringify(tweaks)); }, [tweaks]);
 
@@ -122,52 +161,103 @@ function App() {
 
   let content;
   if (screen === 'home') {
-    content = <HomeScreen state={state} treatment={tweaks.treatment} scoreDisplay={tweaks.scoreDisplay}
+    content = <HomeScreen state={stateKey} treatment={tweaks.treatment} scoreDisplay={tweaks.scoreDisplay}
       sparkVariant={tweaks.sparkVariant} typeTone={tweaks.typeTone} navStyle={tweaks.navStyle}
       onNav={onNav} onMetric={onMetric}/>;
   } else if (screen === 'metric') {
-    content = <MetricDetailScreen state={state} kind={metric || 'rhythm'} onBack={() => { setMetric(null); setScreen('home'); }}
+    content = <MetricDetailScreen state={stateKey} kind={metric || 'rhythm'} onBack={() => { setMetric(null); setScreen('home'); }}
       navStyle={tweaks.navStyle} onNav={onNav}/>;
   } else if (screen === 'history') {
-    content = <HistoryScreen state={state} onNav={onNav} navStyle={tweaks.navStyle}/>;
+    content = <HistoryScreen state={stateKey} onNav={onNav} navStyle={tweaks.navStyle}/>;
   } else if (screen === 'alerts') {
-    content = <AlertsScreen state={state} onNav={onNav} navStyle={tweaks.navStyle}/>;
+    content = <AlertsScreen state={stateKey} onNav={onNav} navStyle={tweaks.navStyle}/>;
   } else if (screen === 'settings') {
-    content = <ProfileScreen state={state} onNav={onNav} navStyle={tweaks.navStyle}/>;
+    content = <ProfileScreen state={stateKey} onNav={onNav} navStyle={tweaks.navStyle}/>;
   }
 
   return (
     <div className="stage">
+      <PenumbraControl p={p} setP={setP} derived={derived}/>
       <div style={{ position: 'relative' }}>
-        <PhoneFrame>{content}</PhoneFrame>
-        <div className="caption">
-          cnry <span className="dot">·</span> {state === 'healthy' ? 'running well · score 88' : state === 'watching' ? 'worth an eye · score 68' : 'needs attention · score 48'} <span className="dot">·</span> a <span className="sixth">sixth</span> sense
+        <div className="phone-stage-shadow">
+          <PhoneFrame dark={true}>{content}</PhoneFrame>
         </div>
-
-        {/* Floating state switcher (always visible for demo) */}
-        <div style={{
-          position: 'fixed', top: 20, left: '50%', transform: 'translateX(-50%)', zIndex: 250,
-          display: 'flex', gap: 4, padding: 4, borderRadius: 999,
-          background: 'rgba(20,20,20,0.9)', border: '1px solid rgba(255,255,255,0.08)',
-          backdropFilter: 'blur(18px)', fontFamily: 'Inter, sans-serif',
-        }}>
-          {[
-            ['healthy', 'Healthy'],
-            ['watching', 'Watching'],
-            ['action', 'Action'],
-          ].map(([id, label]) => (
-            <button key={id} onClick={() => setState(id)} style={{
-              padding: '7px 14px', borderRadius: 999, border: 'none', cursor: 'pointer',
-              fontSize: 11, fontWeight: 600, letterSpacing: '0.04em',
-              background: state === id ? '#F5C526' : 'transparent',
-              color: state === id ? '#0A0A0A' : 'rgba(255,255,255,0.7)',
-              transition: 'all 0.2s',
-            }}>{label}</button>
-          ))}
+        <div className="caption">
+          cnrysense · live demo · drag the slider above
         </div>
       </div>
-
       {tweakMode && <TweaksPanel tweaks={tweaks} update={updateTweak}/>}
+    </div>
+  );
+}
+
+function PenumbraControl({ p, setP, derived }) {
+  const railRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+
+  // p=100 on LEFT, p=0 on RIGHT — so thumbPct = 100 - p
+  const thumbPct = 100 - p;
+
+  const updateFromClientX = (clientX) => {
+    const rect = railRef.current.getBoundingClientRect();
+    const t = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    setP(Math.round((1 - t) * 100));
+  };
+
+  const onPointerDown = (e) => {
+    e.preventDefault();
+    setDragging(true);
+    updateFromClientX(e.clientX);
+    const move = (ev) => updateFromClientX(ev.clientX);
+    const up = () => {
+      setDragging(false);
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+
+  const onKeyDown = (e) => {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { e.preventDefault(); setP(Math.max(0, p - (e.shiftKey ? 10 : 2))); }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { e.preventDefault(); setP(Math.min(100, p + (e.shiftKey ? 10 : 2))); }
+    if (e.key === 'Home') { e.preventDefault(); setP(100); }
+    if (e.key === 'End')  { e.preventDefault(); setP(0); }
+  };
+
+  return (
+    <div className="pen-control">
+      <div className="pen-head">
+        <div className="pen-lockup">
+          <Bird size={22}/>
+          <span className="lk lk-cnry">cnry</span><span className="lk lk-sense">sense</span>
+          <span className="pen-meta" style={{ marginLeft: 10 }}>penumbra · live demo</span>
+        </div>
+        <span className="pen-meta">drag · ← → · shift+arrow · home/end</span>
+      </div>
+      <div className="pen-phrase-row">
+        <div className="pen-phrase" style={{ color: derived.glow }}>
+          "{derived.verdict}"
+        </div>
+        <div className="pen-score">{derived.score}</div>
+      </div>
+      <div className="pen-rail-wrap"
+        ref={railRef}
+        onPointerDown={onPointerDown}
+        role="slider"
+        aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(p)}
+        tabIndex={0}
+        onKeyDown={onKeyDown}>
+        <div className="pen-rail" style={{ background: window.Penumbra.gradientCSS() }}/>
+        <div className="pen-thumb" style={{ left: `${thumbPct}%`, top: 'calc(50% - 1px)' }}>
+          <div className="thumb-dot" style={{ background: derived.glow }}/>
+        </div>
+        <div className="pen-rail-labels">
+          <span>100 · Running beautifully</span>
+          <span>50 · Worth watching</span>
+          <span>0 · Sort this out</span>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,4 @@
 // CNRY components — bird mark, score displays, cards, icons
-// Rebranded per Sixth Sense Lockup: lowercase Archivo Black lockup, bird at cap-height,
-// Instrument Serif for serif display, canary primary + dusk strapline accent.
 
 const BIRD_PATH = "M217.161,66.369 C216.096,68.197 215.13,70.071 214.22,71.97 C210.054,61.378 203.747,51.653 195.568,43.474 L194.719,42.625 C201.974,37.297 210.65,34.204 219.778,33.874 C229.531,33.539 237.463,36.38 243.081,39.444 C234.318,45.062 224.583,53.617 217.161,66.369 Z M199.037,135.577 L183.216,119.755 C189.908,101.702 185.553,81.128 171.734,67.31 L170.525,66.101 L175.198,61.427 L175.157,61.386 L185.29,51.252 L186.539,52.501 C198.505,64.468 205.784,80.321 207.051,97.16 L207.06,99.654 L207.204,99.792 C207.658,112.255 204.808,124.654 199.037,135.577 Z M101.378,137.662 C115.18,151.466 135.738,155.824 153.787,149.154 L169.618,164.985 C142.534,179.36 108.708,174.603 86.572,152.469 L85.331,151.228 L91.043,145.501 L91.084,145.541 L100.171,136.455 L101.378,137.662 Z M259.328,35.215 C254.156,30.73 239.888,20.356 219.316,21.121 C204.632,21.649 190.827,27.665 180.437,38.055 L20.819,197.673 L38.869,197.673 L76.295,160.248 L77.543,161.497 C93.682,177.636 115.083,185.948 136.626,185.947 C152.901,185.947 169.26,181.201 183.486,171.503 L189.853,167.163 L156.583,133.894 L152.508,135.847 C138.398,142.602 121.479,139.704 110.407,128.635 L109.198,127.427 L161.497,75.129 L162.705,76.337 C173.791,87.423 176.686,104.354 169.907,118.465 L167.948,122.544 L201.22,155.816 L205.561,149.451 C215.926,134.255 220.979,115.755 219.851,97.275 C221.032,88.524 223.833,80.294 228.189,72.785 C236.76,58.053 249.065,49.993 257.875,45.812 L266.718,41.631 L259.328,35.215 Z";
 
@@ -11,7 +9,7 @@ function Bird({ size = 24, color, gradientId = 'birdGrad', useGradient = true, t
       style={{ display: 'inline-block', verticalAlign: 'middle', transform: `rotate(${tilt}deg)`, transformOrigin: '50% 65%', transition: 'transform 1.2s ease', ...style }}>
       <defs>
         <linearGradient id={id} x1="0%" y1="100%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#C89A0F"/>
+          <stop offset="0%" stopColor="#D4960E"/>
           <stop offset="100%" stopColor="#F5C526"/>
         </linearGradient>
       </defs>
@@ -20,27 +18,14 @@ function Bird({ size = 24, color, gradientId = 'birdGrad', useGradient = true, t
   );
 }
 
-// Lowercase lockup — the brand. "cnry" in Archivo Black, bird sitting at cap-height alongside.
-function Lockup({ text = 'cnry', size = 18, color = '#fff', withBird = true, birdScale = 1.35, gap = 6 }) {
-  return (
-    <span style={{ display: 'inline-flex', alignItems: 'center', gap }}>
-      {withBird && (
-        <span className="breathe" style={{ display: 'inline-flex', alignItems: 'center' }}>
-          <Bird size={size * birdScale}/>
-        </span>
-      )}
-      <span className="lockup" style={{ fontSize: size, color, lineHeight: 0.9 }}>{text}</span>
-    </span>
-  );
-}
-
 // --- State Wash — the colored gradient top ---
 function StateWash({ state, treatment, coverage = 1 }) {
   const s = ENGINE_STATES[state];
-  const isFullBleed  = treatment === 'full-bleed';
-  const isHybrid     = treatment === 'hybrid';
+  const isFullBleed = treatment === 'full-bleed';
+  const isHybrid = treatment === 'hybrid';
   const isDarkAccent = treatment === 'dark-accent';
 
+  // height of wash depends on treatment
   const h = isFullBleed ? '100%' : isHybrid ? '58%' : '28%';
   const fadeTo = '#0A0A0A';
   const fadeEnd = isFullBleed ? '100%' : isHybrid ? '92%' : '80%';
@@ -50,14 +35,17 @@ function StateWash({ state, treatment, coverage = 1 }) {
       position: 'absolute', top: 0, left: 0, right: 0, height: h, overflow: 'hidden',
       pointerEvents: 'none',
     }}>
+      {/* base wash */}
       <div className="slow wash-anim" style={{
         position: 'absolute', inset: '-10% -10% 0 -10%',
         background: `radial-gradient(ellipse 120% 90% at 50% 10%, ${s.glow}cc 0%, ${s.washColors[1]} 28%, ${s.washColors[0]} 60%, ${fadeTo} ${fadeEnd})`,
       }}/>
+      {/* soft grain */}
       <div style={{
         position: 'absolute', inset: 0, opacity: 0.35, mixBlendMode: 'overlay',
         backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>")`,
       }}/>
+      {/* bottom fade to ink (for hybrid) */}
       {!isFullBleed && (
         <div style={{
           position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%',
@@ -68,18 +56,19 @@ function StateWash({ state, treatment, coverage = 1 }) {
   );
 }
 
-// --- Header bar (lockup + menu) ---
+// --- Header bar (bird + wordmark + menu) ---
 function HeaderBar({ onMenu }) {
   return (
     <div style={{
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: '0 22px', position: 'relative', zIndex: 4,
     }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <Lockup size={19}/>
-        <span className="sixth-sense" style={{ paddingLeft: 34 }}>
-          a <span className="sixth">sixth</span> sense
-        </span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div className="breathe"><Bird size={26}/></div>
+        <span style={{
+          fontFamily: "'Inter', sans-serif", fontWeight: 900, fontSize: 20,
+          letterSpacing: '-0.04em', color: '#F5C526', textTransform: 'lowercase', lineHeight: 1,
+        }}>cnry</span>
       </div>
       <button onClick={onMenu} style={{
         width: 36, height: 36, borderRadius: 18, border: 'none',
@@ -94,13 +83,12 @@ function HeaderBar({ onMenu }) {
 
 // --- Score displays (3 variants) ---
 function ScoreNumeral({ score, typeTone }) {
-  // "instrument" = Instrument Serif (per brand kit). "healthapp" = Inter light.
-  const family = typeTone === 'instrument' ? "'Instrument Serif', Georgia, serif" : "'Inter', sans-serif";
-  const weight = typeTone === 'instrument' ? 400 : 200;
+  const family = typeTone === 'instrument' ? "'Fraunces', serif" : "'Inter', sans-serif";
+  const weight = typeTone === 'instrument' ? 300 : 200;
   return (
     <div className="digit-in" style={{
-      fontFamily: family, fontWeight: weight, fontSize: 124, lineHeight: 1,
-      color: '#fff', letterSpacing: typeTone === 'instrument' ? '-0.025em' : '-0.04em',
+      fontFamily: family, fontWeight: weight, fontSize: 118, lineHeight: 1,
+      color: '#fff', letterSpacing: typeTone === 'instrument' ? '-0.02em' : '-0.04em',
       fontVariantNumeric: 'tabular-nums',
     }}>{score}</div>
   );
@@ -120,7 +108,7 @@ function ScoreRing({ score, glow }) {
       </svg>
       <div style={{
         position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 60, color: '#fff', letterSpacing: '-0.02em',
+        fontFamily: "'Inter', sans-serif", fontWeight: 200, fontSize: 58, color: '#fff', letterSpacing: '-0.04em',
       }}>{score}</div>
     </div>
   );
@@ -129,26 +117,30 @@ function ScoreRing({ score, glow }) {
 function ScoreBirdOnGradient({ score, state }) {
   const s = ENGINE_STATES[state];
   const pct = score / 100;
+  // position bird along the gradient
   return (
     <div className="digit-in" style={{ width: '100%', position: 'relative', paddingTop: 6 }}>
-      <div style={{ position: 'relative', height: 94, marginBottom: 10 }}>
+      <div style={{ position: 'relative', height: 90, marginBottom: 10 }}>
+        {/* gradient strip */}
         <div style={{
-          position: 'absolute', left: 0, right: 0, top: 46, height: 4, borderRadius: 2,
+          position: 'absolute', left: 0, right: 0, top: 42, height: 4, borderRadius: 2,
           background: `linear-gradient(to right, #A73A1A 0%, #D4A015 50%, #14A888 100%)`,
           opacity: 0.9,
         }}/>
+        {/* ticks */}
         {[0, 50, 100].map(v => (
           <div key={v} style={{
-            position: 'absolute', left: `${v}%`, top: 44, width: 1, height: 8,
+            position: 'absolute', left: `${v}%`, top: 40, width: 1, height: 8,
             background: 'rgba(255,255,255,0.35)', transform: 'translateX(-0.5px)',
           }}/>
         ))}
+        {/* bird marker */}
         <div style={{
           position: 'absolute', left: `${pct * 100}%`, top: 0, transform: 'translateX(-50%)',
           transition: 'left 1.4s cubic-bezier(.6,.05,.3,1)',
         }}>
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 46, color: '#fff', lineHeight: 1, letterSpacing: '-0.02em' }}>{score}</div>
+            <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 200, fontSize: 44, color: '#fff', lineHeight: 1 }}>{score}</div>
             <div style={{ marginTop: 4 }}><Bird size={28}/></div>
             <div style={{ width: 1, height: 10, background: '#fff', margin: '2px auto 0', opacity: 0.7 }}/>
           </div>
@@ -186,7 +178,6 @@ function MetricIcon({ kind, color }) {
 }
 
 function MetricCard({ kind, data, accent, onClick, riseClass }) {
-  const title = kind === 'rhythm' ? 'rhythm' : kind === 'sound' ? 'sound' : 'stress';
   return (
     <button onClick={onClick} className={riseClass} style={{
       width: '100%', display: 'flex', alignItems: 'center', gap: 14, textAlign: 'left',
@@ -205,10 +196,10 @@ function MetricCard({ kind, data, accent, onClick, riseClass }) {
         <MetricIcon kind={kind} color={accent}/>
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div className="lockup" style={{ fontSize: 17, color: '#fff', marginBottom: 3 }}>
-          {title}
+        <div style={{ fontSize: 15, fontWeight: 600, color: '#fff', marginBottom: 2 }}>
+          {kind === 'rhythm' ? 'Rhythm' : kind === 'sound' ? 'Sound' : 'Stress'}
         </div>
-        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.65)', lineHeight: 1.35, fontFamily: 'Inter' }}>
+        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.65)', lineHeight: 1.35 }}>
           {data.state} — {data.detail}
         </div>
       </div>
@@ -253,6 +244,7 @@ function Sparkline({ points, color, variant = 'line', width = 320, height = 52 }
   return (
     <svg width={width} height={height} style={{ display: 'block' }}>
       <path d={d} stroke={color} strokeWidth="1.25" fill="none" strokeLinecap="round" strokeLinejoin="round" className="spark" opacity="0.75"/>
+      {/* endpoint dot */}
       <circle cx={xs[xs.length-1]} cy={ys[ys.length-1]} r="3" fill={color}/>
       <circle cx={xs[xs.length-1]} cy={ys[ys.length-1]} r="6" fill={color} opacity="0.25"/>
     </svg>
@@ -321,7 +313,7 @@ function BottomNav({ active, onNav, alertBadge, style: navStyle = 'labels' }) {
 }
 
 Object.assign(window, {
-  Bird, Lockup, StateWash, HeaderBar,
+  Bird, StateWash, HeaderBar,
   ScoreNumeral, ScoreRing, ScoreBirdOnGradient,
   MetricCard, MetricIcon, Sparkline, BottomNav,
 });
