@@ -1,14 +1,8 @@
 // CNRY screens — Home, Metric Detail, History, Alerts, Profile
-// Rebranded: lowercase brand lockup, Instrument Serif display, canary+dusk accents.
 
 // ─── HOME ─────────────────────────────────────────────────────
 function HomeScreen({ state, treatment, scoreDisplay, sparkVariant, typeTone, navStyle, onNav, onMetric }) {
   const s = ENGINE_STATES[state];
-  // Verdict always uses Instrument Serif italic — aligned to brand kit editorial voice.
-  // typeTone 'healthapp' flips it to Inter for the variant.
-  const verdictFamily = typeTone === 'instrument' ? "'Instrument Serif', Georgia, serif" : "'Inter', sans-serif";
-  const verdictWeight = typeTone === 'instrument' ? 400 : 500;
-  const verdictStyle  = typeTone === 'instrument' ? 'italic' : 'normal';
   return (
     <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', background: '#0A0A0A' }} className="grain slow">
       <StateWash state={state} treatment={treatment}/>
@@ -24,10 +18,11 @@ function HomeScreen({ state, treatment, scoreDisplay, sparkVariant, typeTone, na
           </div>
           <div className="rise-3" style={{
             marginTop: scoreDisplay === 'bird' ? 18 : 14,
-            fontFamily: verdictFamily, fontStyle: verdictStyle, fontWeight: verdictWeight,
-            fontSize: 30, lineHeight: 1.1, color: '#fff', letterSpacing: '-0.02em', textWrap: 'pretty',
+            fontFamily: typeTone === 'instrument' ? "'Fraunces', serif" : "'Inter', sans-serif",
+            fontWeight: typeTone === 'instrument' ? 400 : 500,
+            fontSize: 26, lineHeight: 1.15, color: '#fff', letterSpacing: '-0.01em', textWrap: 'pretty',
           }}>{s.verdict}</div>
-          <div className="rise-4" style={{ marginTop: 10, fontSize: 13.5, lineHeight: 1.45, color: 'rgba(255,255,255,0.7)', maxWidth: 300, textWrap: 'pretty' }}>{s.context}</div>
+          <div className="rise-4" style={{ marginTop: 8, fontSize: 13.5, lineHeight: 1.45, color: 'rgba(255,255,255,0.7)', maxWidth: 300, textWrap: 'pretty' }}>{s.context}</div>
         </div>
         <div style={{ flex: 1 }}/>
         <div style={{ padding: '0 22px 8px' }} className="rise-4">
@@ -64,7 +59,9 @@ function HomeScreen({ state, treatment, scoreDisplay, sparkVariant, typeTone, na
 
 // ─── METRIC DETAIL (redesigned with diagnostics) ─────────────
 function ScorePill({ score }) {
+  // interpolate along attention→watch→healthy gradient
   const pct = Math.max(0, Math.min(100, score)) / 100;
+  // color mapping mirroring the app's gradient
   let bg;
   if (pct > 0.78) bg = '#14A888';
   else if (pct > 0.6) bg = '#D4A015';
@@ -125,18 +122,25 @@ function DiagnosticCard({ dx, accent, riseClass }) {
 
 function MetricDetailScreen({ state, kind, onBack, navStyle, onNav }) {
   const s = ENGINE_STATES[state];
-  const channelScore = CHANNEL_SCORES[kind][state];
+  // In penumbra mode `state` is 'penumbra' — fall back to the derived band for legacy lookups.
+  const bandKey = s.band || state;
   const baseline = CHANNEL_BASELINES[kind];
+  // Channel score drifts from baseline toward the legacy band score, proportional to s.p.
+  const bandScore = CHANNEL_SCORES[kind][bandKey];
+  const channelScore = Math.round(s.p !== undefined
+    ? baseline + (bandScore - baseline) * (1 - Math.max(0, Math.min(1, s.p / 100)))
+    : bandScore);
   const delta = channelScore - baseline;
   const data = s[kind];
-  const series = CHANNEL_SERIES[kind][state];
-  const dxs = DIAGNOSTICS[kind][state];
+  const series = CHANNEL_SERIES[kind][bandKey];
+  const dxs = DIAGNOSTICS[kind][bandKey];
   const kindMeta = {
-    rhythm: { title: 'rhythm', sub: 'how smoothly your engine is running' },
-    sound:  { title: 'sound',  sub: 'the acoustic signature of your engine' },
-    stress: { title: 'stress', sub: 'how hard your engine is working' },
+    rhythm: { title: 'Rhythm', sub: 'How smoothly your engine is running' },
+    sound:  { title: 'Sound',  sub: 'The acoustic signature of your engine' },
+    stress: { title: 'Stress', sub: 'How hard your engine is working' },
   }[kind];
 
+  // sparkline
   const w = 330, h = 100;
   const min = Math.min(...series), max = Math.max(...series);
   const xs = series.map((_, i) => (i / (series.length - 1)) * w);
@@ -156,13 +160,16 @@ function MetricDetailScreen({ state, kind, onBack, navStyle, onNav }) {
             <svg width="12" height="12" viewBox="0 0 12 12"><path d="M8 2 L3 6 L8 10" stroke="#fff" strokeWidth="1.6" fill="none" strokeLinecap="round"/></svg>
             Back
           </button>
-          <Lockup size={15} gap={5} birdScale={1.35}/>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div className="breathe"><Bird size={18}/></div>
+            <span className="wordmark" style={{ fontSize: 12, color: '#fff' }}>CNRY</span>
+          </div>
         </div>
 
-        {/* Title + channel score pill — Archivo lowercase lockup */}
+        {/* Title + channel score pill */}
         <div style={{ padding: '28px 22px 0' }} className="rise-1">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 6 }}>
-            <span className="lockup" style={{ fontSize: 40, color: '#fff' }}>{kindMeta.title}</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 6 }}>
+            <span className="wordmark" style={{ fontSize: 22, color: '#fff', letterSpacing: '0.1em' }}>{kindMeta.title.toUpperCase()}</span>
             <ScorePill score={channelScore}/>
           </div>
           <div style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.6)', lineHeight: 1.4 }}>{kindMeta.sub}</div>
@@ -178,7 +185,7 @@ function MetricDetailScreen({ state, kind, onBack, navStyle, onNav }) {
                 {delta === 0 ? `In line with your usual ${baseline}` : (delta < 0 ? `Down ${Math.abs(delta)} from your usual ${baseline}` : `Up ${delta} from your usual ${baseline}`)}
               </div>
             </div>
-            <div style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 36, color: '#fff', letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}>
+            <div style={{ fontFamily: 'Inter', fontWeight: 300, fontSize: 32, color: '#fff', letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}>
               {channelScore}
             </div>
           </div>
@@ -200,14 +207,14 @@ function MetricDetailScreen({ state, kind, onBack, navStyle, onNav }) {
         <div style={{ padding: '18px 22px 0', display: 'flex', gap: 28 }} className="rise-2">
           <div>
             <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 4 }}>NOW</div>
-            <div style={{ fontFamily: "'Instrument Serif', serif", fontSize: 26, fontWeight: 400, color: '#fff', letterSpacing: '-0.01em', fontVariantNumeric: 'tabular-nums' }}>
-              {data.value}<span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginLeft: 4, fontFamily: 'Inter' }}>{data.unit}</span>
+            <div style={{ fontSize: 22, fontWeight: 300, color: '#fff', letterSpacing: '-0.01em', fontVariantNumeric: 'tabular-nums' }}>
+              {data.value}<span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginLeft: 3 }}>{data.unit}</span>
             </div>
           </div>
           <div>
             <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 4 }}>BASELINE</div>
-            <div style={{ fontFamily: "'Instrument Serif', serif", fontSize: 26, fontWeight: 400, color: 'rgba(255,255,255,0.6)', letterSpacing: '-0.01em', fontVariantNumeric: 'tabular-nums' }}>
-              {data.baseline}<span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginLeft: 4, fontFamily: 'Inter' }}>{data.unit}</span>
+            <div style={{ fontSize: 22, fontWeight: 300, color: 'rgba(255,255,255,0.6)', letterSpacing: '-0.01em', fontVariantNumeric: 'tabular-nums' }}>
+              {data.baseline}<span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginLeft: 3 }}>{data.unit}</span>
             </div>
           </div>
         </div>
@@ -226,6 +233,7 @@ function MetricDetailScreen({ state, kind, onBack, navStyle, onNav }) {
                 <DiagnosticCard key={i} dx={dx} accent={s.glow} riseClass={`rise-${Math.min(5, 3 + i)}`}/>
               ))}
             </div>
+            {/* Send to marina (outlined) */}
             <div style={{ padding: '20px 16px 0' }} className="rise-5">
               <button style={{
                 width: '100%', padding: '15px', borderRadius: 14,
@@ -243,14 +251,15 @@ function MetricDetailScreen({ state, kind, onBack, navStyle, onNav }) {
           </>
         )}
 
+        {/* Healthy empty state */}
         {dxs.length === 0 && (
           <div style={{ padding: '32px 22px 0' }} className="rise-3">
             <div style={{ padding: '22px', borderRadius: 18,
               background: `linear-gradient(135deg, ${s.glow}14, transparent)`, border: `1px solid ${s.glow}26`,
               display: 'flex', alignItems: 'flex-start', gap: 14 }}>
-              <div className="breathe" style={{ flexShrink: 0, marginTop: 2 }}><Bird size={44}/></div>
+              <div className="breathe" style={{ flexShrink: 0, marginTop: 2 }}><Bird size={38}/></div>
               <div>
-                <div style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontSize: 22, fontWeight: 400, color: '#fff', marginBottom: 6, letterSpacing: '-0.015em' }}>Nothing to flag.</div>
+                <div style={{ fontSize: 15, fontWeight: 600, color: '#fff', marginBottom: 6 }}>Nothing to flag</div>
                 <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>
                   This channel is tracking comfortably within your baseline. We'll surface anything worth a look.
                 </div>
@@ -269,10 +278,15 @@ function MetricDetailScreen({ state, kind, onBack, navStyle, onNav }) {
 // ─── HISTORY ──────────────────────────────────────────────────
 function HistoryScreen({ state, onNav, navStyle }) {
   const s = ENGINE_STATES[state];
+  // Start high, ease toward current score. Works for any penumbra value.
+  const target = s.p !== undefined ? s.p : s.score;
+  const start = Math.min(92, Math.max(target + 8, 82));
   const days = Array.from({ length: 28 }, (_, i) => {
-    const base = state === 'healthy' ? 88 : state === 'watching' ? 78 - (i / 28) * 10 : 85 - (i / 28) * 37;
+    const t = i / 27;
+    const eased = t * t;
+    const base = start + (target - start) * eased;
     const jitter = Math.sin(i * 1.3) * 2.5 + Math.cos(i * 0.7) * 1.8;
-    return Math.round(Math.max(30, Math.min(100, base + jitter)));
+    return Math.round(Math.max(10, Math.min(100, base + jitter)));
   });
   const w = 334, h = 180;
   const xs = days.map((_, i) => (i / (days.length - 1)) * w);
@@ -287,11 +301,12 @@ function HistoryScreen({ state, onNav, navStyle }) {
         <div style={{ padding: '4px 22px 0' }}><HeaderBar/></div>
         <div style={{ padding: '28px 22px 0' }} className="rise-1">
           <div className="label-caps" style={{ color: 'rgba(255,255,255,0.55)', marginBottom: 10 }}>HISTORY</div>
-          <div style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontSize: 34, fontWeight: 400, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.1 }}>4 weeks at a glance</div>
-          <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', marginTop: 8, maxWidth: 300 }}>
-            {state === 'healthy' && 'Your engine has been steady. No meaningful changes to flag.'}
-            {state === 'watching' && 'A gentle downward drift over the last fortnight. Nothing urgent, but worth watching.'}
-            {state === 'action' && 'Clear decline over the past two weeks. Time to get eyes on it.'}
+          <div style={{ fontSize: 30, fontWeight: 300, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.15 }}>4 weeks at a glance</div>
+          <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', marginTop: 6, maxWidth: 300 }}>
+            {s.p >= 80 && 'Your engine has been steady. No meaningful changes to flag.'}
+            {s.p < 80 && s.p >= 55 && 'A gentle drift over the last fortnight. Nothing urgent, but worth watching.'}
+            {s.p < 55 && s.p >= 30 && 'A steady drift over the past two weeks. Worth a closer look.'}
+            {s.p < 30 && 'Clear decline over the past two weeks. Time to get eyes on it.'}
           </div>
         </div>
         <div style={{ margin: '22px 16px 0', padding: '18px 14px 10px', borderRadius: 20,
@@ -366,8 +381,8 @@ function AlertsScreen({ state, onNav, navStyle }) {
         <div style={{ padding: '4px 22px 0' }}><HeaderBar/></div>
         <div style={{ padding: '28px 22px 0' }} className="rise-1">
           <div className="label-caps" style={{ color: 'rgba(255,255,255,0.55)', marginBottom: 10 }}>ALERTS</div>
-          <div style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontSize: 34, fontWeight: 400, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.1 }}>Nothing urgent.</div>
-          <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', marginTop: 8, maxWidth: 300 }}>
+          <div style={{ fontSize: 30, fontWeight: 300, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.15 }}>Nothing urgent</div>
+          <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', marginTop: 6, maxWidth: 300 }}>
             We only shout when it matters. Here's what's worth knowing.
           </div>
         </div>
@@ -429,20 +444,20 @@ function ProfileScreen({ state, onNav, navStyle }) {
         <div style={{ height: 58 }}/>
         <div style={{ padding: '4px 22px 0' }}><HeaderBar/></div>
 
-        {/* Boat name hero — lowercase Archivo Black, bird at cap-height */}
+        {/* Boat name hero */}
         <div style={{ padding: '28px 22px 0' }} className="rise-1">
           <div className="label-caps" style={{ color: 'rgba(255,255,255,0.5)', marginBottom: 10 }}>SHIP'S LOG</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <div style={{ flex: 1 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span className="lockup" style={{ fontSize: 42, color: '#fff' }}>{b.name.toLowerCase()}</span>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+                <span className="wordmark" style={{ fontSize: 32, color: '#fff', letterSpacing: '0.04em' }}>{b.name.toUpperCase()}</span>
                 <svg width="14" height="14" viewBox="0 0 12 12" style={{ opacity: 0.4 }}>
                   <path d="M8 1 L11 4 L4 11 L1 11 L1 8 Z" stroke="#fff" strokeWidth="1.2" fill="none" strokeLinejoin="round"/>
                 </svg>
               </div>
-              <div style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontSize: 15, color: 'rgba(255,255,255,0.65)', marginTop: 4, letterSpacing: '-0.005em' }}>{b.homePort}</div>
+              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', marginTop: 4 }}>{b.homePort}</div>
             </div>
-            <div className="breathe"><Bird size={54}/></div>
+            <div className="breathe"><Bird size={48}/></div>
           </div>
         </div>
 
@@ -467,6 +482,7 @@ function ProfileScreen({ state, onNav, navStyle }) {
         <div style={{ padding: '26px 16px 0' }} className="rise-3">
           <div className="label-caps" style={{ color: 'rgba(255,255,255,0.45)', marginBottom: 10, paddingLeft: 6 }}>SERVICE HISTORY</div>
           <div style={{ background: '#141414', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 18, padding: '16px 16px' }}>
+            {/* Last service */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 14, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
               <div>
                 <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginBottom: 2 }}>Last service</div>
@@ -477,6 +493,7 @@ function ProfileScreen({ state, onNav, navStyle }) {
               </span>
             </div>
 
+            {/* Upload target */}
             <div style={{ marginTop: 14 }}>
               <button style={{
                 width: '100%', padding: '18px', borderRadius: 14,
@@ -490,6 +507,7 @@ function ProfileScreen({ state, onNav, navStyle }) {
               <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', textAlign: 'center', marginTop: 6 }}>PDF or image</div>
             </div>
 
+            {/* Uploaded docs */}
             <div style={{ marginTop: 14, display: 'flex', flexDirection: 'column', gap: 8 }}>
               {sh.documents.map((doc, i) => (
                 <div key={i} style={{
@@ -511,6 +529,7 @@ function ProfileScreen({ state, onNav, navStyle }) {
               ))}
             </div>
 
+            {/* Add note */}
             <div style={{ marginTop: 14, paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
               <input type="text" placeholder="Add a service note…" style={{
                 width: '100%', padding: '12px 14px', borderRadius: 12,
@@ -519,6 +538,7 @@ function ProfileScreen({ state, onNav, navStyle }) {
               }}/>
             </div>
 
+            {/* Notes list */}
             <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column' }}>
               {sh.notes.map((n, i) => (
                 <div key={i} style={{
@@ -538,10 +558,8 @@ function ProfileScreen({ state, onNav, navStyle }) {
           <div style={{ background: '#141414', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 18, padding: '16px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
               <div>
-                <div className="lockup" style={{ fontSize: 18, color: '#fff' }}>cnrysense</div>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', marginTop: 4, fontVariantNumeric: 'tabular-nums' }}>
-                  {b.sensor.name.split('·')[1].trim()} · last sync {b.sensor.lastSync}
-                </div>
+                <div style={{ fontSize: 14, color: '#fff', fontWeight: 500 }}>{b.sensor.name}</div>
+                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>Last sync · {b.sensor.lastSync}</div>
               </div>
               <div style={{ display: 'flex', alignItems: 'flex-end', gap: 2 }}>
                 {[1,2,3,4].map(n => (
@@ -556,14 +574,6 @@ function ProfileScreen({ state, onNav, navStyle }) {
               fontSize: 12, color: 'rgba(232,69,42,0.8)', background: 'none', border: 'none',
               padding: '4px 0', cursor: 'pointer', fontFamily: 'inherit',
             }}>Forget device</button>
-          </div>
-        </div>
-
-        {/* Colophon — brand stamp at the foot */}
-        <div style={{ padding: '28px 22px 0', textAlign: 'center' }} className="rise-5">
-          <div className="lockup" style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>cnrysense</div>
-          <div className="sixth-sense" style={{ marginTop: 4 }}>
-            a <span className="sixth">sixth</span> sense
           </div>
         </div>
 
