@@ -4,9 +4,9 @@
 function HomeScreen({ state, treatment, scoreDisplay, sparkVariant, typeTone, navStyle, onNav, onMetric }) {
   const s = ENGINE_STATES[state];
   return (
-    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', background: '#0A0A0A' }} className="grain slow">
+    <div style={{ position: 'relative', minHeight: '100%', background: '#0A0A0A' }} className="grain slow">
       <StateWash state={state} treatment={treatment}/>
-      <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column' }}>
         <div style={{ height: 58 }}/>
         <div style={{ paddingTop: 4 }}><HeaderBar/></div>
         <div style={{ padding: '28px 22px 0', position: 'relative' }}>
@@ -24,8 +24,7 @@ function HomeScreen({ state, treatment, scoreDisplay, sparkVariant, typeTone, na
           }}>{s.verdict}</div>
           <div className="rise-4" style={{ marginTop: 8, fontSize: 13.5, lineHeight: 1.45, color: 'rgba(255,255,255,0.7)', maxWidth: 300, textWrap: 'pretty' }}>{s.context}</div>
         </div>
-        <div style={{ flex: 1 }}/>
-        <div style={{ padding: '0 22px 8px' }} className="rise-4">
+        <div style={{ padding: '24px 22px 8px' }} className="rise-4">
           <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: 6 }}>{s.trendLabel.toUpperCase()}</div>
           <Sparkline points={s.spark} color={s.glow} variant={sparkVariant} width={330} height={44}/>
         </div>
@@ -50,9 +49,8 @@ function HomeScreen({ state, treatment, scoreDisplay, sparkVariant, typeTone, na
             </button>
           </div>
         )}
-        <div style={{ height: navStyle === 'pill' ? 100 : 84 }}/>
+        <div style={{ height: navStyle === 'pill' ? 110 : 96 }}/>
       </div>
-      <BottomNav active="home" onNav={onNav} alertBadge={state !== 'healthy'} style={navStyle}/>
     </div>
   );
 }
@@ -148,7 +146,7 @@ function MetricDetailScreen({ state, kind, onBack, navStyle, onNav }) {
   const d = xs.map((x, i) => `${i === 0 ? 'M' : 'L'}${x},${ys[i]}`).join(' ');
 
   return (
-    <div style={{ position: 'absolute', inset: 0, overflow: 'auto', background: '#0A0A0A' }} className="scroll-hidden slow">
+    <div style={{ position: 'relative', minHeight: '100%', background: '#0A0A0A' }} className="scroll-hidden slow">
       <StateWash state={state} treatment="dark-accent"/>
       <div style={{ position: 'relative', zIndex: 2 }}>
         <div style={{ height: 58 }}/>
@@ -270,7 +268,6 @@ function MetricDetailScreen({ state, kind, onBack, navStyle, onNav }) {
 
         <div style={{ height: navStyle === 'pill' ? 110 : 100 }}/>
       </div>
-      <BottomNav active="home" onNav={(id) => { onBack(); setTimeout(() => onNav(id), 50); }} alertBadge={state !== 'healthy'} style={navStyle}/>
     </div>
   );
 }
@@ -294,7 +291,7 @@ function HistoryScreen({ state, onNav, navStyle }) {
   const d = xs.map((x, i) => `${i === 0 ? 'M' : 'L'}${x},${ys[i]}`).join(' ');
 
   return (
-    <div style={{ position: 'absolute', inset: 0, overflow: 'auto', background: '#0A0A0A' }} className="scroll-hidden slow">
+    <div style={{ position: 'relative', minHeight: '100%', background: '#0A0A0A' }} className="scroll-hidden slow">
       <StateWash state={state} treatment="dark-accent"/>
       <div style={{ position: 'relative', zIndex: 2 }}>
         <div style={{ height: 58 }}/>
@@ -361,7 +358,6 @@ function HistoryScreen({ state, onNav, navStyle }) {
         </div>
         <div style={{ height: navStyle === 'pill' ? 110 : 100 }}/>
       </div>
-      <BottomNav active="history" onNav={onNav} alertBadge={state !== 'healthy'} style={navStyle}/>
     </div>
   );
 }
@@ -374,7 +370,7 @@ function AlertsScreen({ state, onNav, navStyle }) {
     resolved: { label: 'Resolved',     color: '#2ECC71' },
   };
   return (
-    <div style={{ position: 'absolute', inset: 0, overflow: 'auto', background: '#0A0A0A' }} className="scroll-hidden slow">
+    <div style={{ position: 'relative', minHeight: '100%', background: '#0A0A0A' }} className="scroll-hidden slow">
       <StateWash state={state} treatment="dark-accent"/>
       <div style={{ position: 'relative', zIndex: 2 }}>
         <div style={{ height: 58 }}/>
@@ -409,7 +405,6 @@ function AlertsScreen({ state, onNav, navStyle }) {
         </div>
         <div style={{ height: navStyle === 'pill' ? 110 : 100 }}/>
       </div>
-      <BottomNav active="alerts" onNav={onNav} alertBadge={state !== 'healthy'} style={navStyle}/>
     </div>
   );
 }
@@ -438,7 +433,7 @@ function ProfileScreen({ state, onNav, navStyle }) {
   const b = BOAT_EXTENDED;
   const sh = SERVICE_HISTORY;
   return (
-    <div style={{ position: 'absolute', inset: 0, overflow: 'auto', background: '#0A0A0A' }} className="scroll-hidden slow">
+    <div style={{ position: 'relative', minHeight: '100%', background: '#0A0A0A' }} className="scroll-hidden slow">
       <StateWash state={state} treatment="dark-accent"/>
       <div style={{ position: 'relative', zIndex: 2 }}>
         <div style={{ height: 58 }}/>
@@ -579,7 +574,6 @@ function ProfileScreen({ state, onNav, navStyle }) {
 
         <div style={{ height: navStyle === 'pill' ? 120 : 110 }}/>
       </div>
-      <BottomNav active="settings" onNav={onNav} alertBadge={state !== 'healthy'} style={navStyle}/>
     </div>
   );
 }

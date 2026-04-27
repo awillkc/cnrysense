@@ -24,38 +24,25 @@
   /* ─── Penumbra slider (demo control) ───────────────────────── */
   .pen-control {
     position: fixed; top: 28px; left: 50%; transform: translateX(-50%); z-index: 300;
-    width: min(780px, calc(100% - 40px));
-    padding: 18px 24px 20px;
+    width: 280px;
+    padding: 12px 16px;
     background: rgba(14,14,18,0.82); backdrop-filter: blur(22px) saturate(160%); -webkit-backdrop-filter: blur(22px) saturate(160%);
-    border: 1px solid rgba(255,255,255,0.08); border-radius: 22px;
+    border: 1px solid rgba(255,255,255,0.08); border-radius: 999px;
     color: #fff; font-family: 'Inter', sans-serif;
   }
-  .pen-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
-  .pen-lockup { display: flex; align-items: center; gap: 10px; }
-  .pen-lockup .lk { font-weight: 900; letter-spacing: -0.04em; font-size: 20px; line-height: 1; text-transform: lowercase; }
-  .pen-lockup .lk-cnry { color: #F5C526; }
-  .pen-lockup .lk-sense { color: #F1EBDD; }
-  .pen-meta { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.18em; color: rgba(255,255,255,0.5); text-transform: uppercase; }
-  .pen-phrase-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 12px; }
-  .pen-phrase { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 22px; letter-spacing: -0.01em; color: #fff; transition: color 0.4s ease; }
-  .pen-score { font-family: 'Instrument Serif', serif; font-size: 40px; line-height: 1; font-weight: 400; letter-spacing: -0.03em; color: #fff; font-variant-numeric: tabular-nums; }
-
-  .pen-rail-wrap { position: relative; padding: 10px 0 22px; cursor: pointer; }
-  .pen-rail { position: relative; height: 10px; border-radius: 6px; overflow: hidden;
+  .pen-rail-wrap { position: relative; padding: 6px 0; cursor: pointer; outline: none; }
+  .pen-rail { position: relative; height: 8px; border-radius: 6px; overflow: hidden;
     box-shadow: inset 0 1px 2px rgba(0,0,0,0.35); }
-  .pen-rail-labels { display: flex; justify-content: space-between; margin-top: 10px;
-    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.18em;
-    color: rgba(255,255,255,0.38); text-transform: uppercase; }
   .pen-thumb {
-    position: absolute; top: 50%; width: 30px; height: 30px; border-radius: 15px;
-    background: #fff; border: 3px solid rgba(255,255,255,0.95);
+    position: absolute; top: 50%; width: 22px; height: 22px; border-radius: 11px;
+    background: #fff; border: 2px solid rgba(255,255,255,0.95);
     transform: translate(-50%, -50%); cursor: grab;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.6), 0 0 0 4px rgba(255,255,255,0.08);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.55), 0 0 0 3px rgba(255,255,255,0.06);
     transition: box-shadow 0.2s ease;
   }
-  .pen-thumb:active { cursor: grabbing; box-shadow: 0 6px 22px rgba(0,0,0,0.7), 0 0 0 8px rgba(255,255,255,0.1); }
+  .pen-thumb:active { cursor: grabbing; box-shadow: 0 5px 16px rgba(0,0,0,0.7), 0 0 0 6px rgba(255,255,255,0.1); }
   .pen-thumb .thumb-dot {
-    position: absolute; inset: 4px; border-radius: 50%; transition: background 0.4s ease;
+    position: absolute; inset: 3px; border-radius: 50%; transition: background 0.4s ease;
   }
 
   .caption { position: absolute; bottom: -32px; left: 0; right: 0; text-align: center;
@@ -83,12 +70,12 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "navStyle": "icons"
 }/*EDITMODE-END*/;
 
-function PhoneFrame({ children, dark = true }) {
+function PhoneFrame({ children, dark = true, bottomBar = null }) {
   // Wraps the proper iOS 26 device frame from lib/ios-frame.jsx.
   // We pass `title` as undefined so IOSDevice does not render its built-in
   // nav bar — our screens render their own headers.
   return (
-    <IOSDevice width={390} height={844} dark={dark}>
+    <IOSDevice width={390} height={844} dark={dark} bottomBar={bottomBar}>
       {children}
     </IOSDevice>
   );
@@ -175,12 +162,18 @@ function App() {
     content = <ProfileScreen state={stateKey} onNav={onNav} navStyle={tweaks.navStyle}/>;
   }
 
+  // BottomNav lives at App level so it stays pinned while screen content scrolls.
+  const navActive = screen === 'metric' ? 'home' : screen;
+  const bottomNav = (
+    <BottomNav active={navActive} onNav={onNav} alertBadge={derived.banner !== null} style={tweaks.navStyle}/>
+  );
+
   return (
     <div className="stage">
       <PenumbraControl p={p} setP={setP} derived={derived}/>
       <div style={{ position: 'relative' }}>
         <div className="phone-stage-shadow">
-          <PhoneFrame dark={true}>{content}</PhoneFrame>
+          <PhoneFrame dark={true} bottomBar={bottomNav}>{content}</PhoneFrame>
         </div>
         <div className="caption">
           cnrysense · live demo · drag the slider above
@@ -227,35 +220,17 @@ function PenumbraControl({ p, setP, derived }) {
 
   return (
     <div className="pen-control">
-      <div className="pen-head">
-        <div className="pen-lockup">
-          <Bird size={22}/>
-          <span className="lk lk-cnry">cnry</span><span className="lk lk-sense">sense</span>
-          <span className="pen-meta" style={{ marginLeft: 10 }}>penumbra · live demo</span>
-        </div>
-        <span className="pen-meta">drag · ← → · shift+arrow · home/end</span>
-      </div>
-      <div className="pen-phrase-row">
-        <div className="pen-phrase" style={{ color: derived.glow }}>
-          "{derived.verdict}"
-        </div>
-        <div className="pen-score">{derived.score}</div>
-      </div>
       <div className="pen-rail-wrap"
         ref={railRef}
         onPointerDown={onPointerDown}
         role="slider"
+        aria-label="Penumbra"
         aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(p)}
         tabIndex={0}
         onKeyDown={onKeyDown}>
         <div className="pen-rail" style={{ background: window.Penumbra.gradientCSS() }}/>
-        <div className="pen-thumb" style={{ left: `${thumbPct}%`, top: 'calc(50% - 1px)' }}>
+        <div className="pen-thumb" style={{ left: `${thumbPct}%`, top: '50%' }}>
           <div className="thumb-dot" style={{ background: derived.glow }}/>
-        </div>
-        <div className="pen-rail-labels">
-          <span>100 · Running beautifully</span>
-          <span>50 · Worth watching</span>
-          <span>0 · Sort this out</span>
         </div>
       </div>
     </div>
